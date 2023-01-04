@@ -3,6 +3,6 @@
 #ifndef CLIENT
 #define CLIENT
 
-void * mainClient();
+void mainClient();
 
 #endif

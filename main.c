@@ -11,7 +11,7 @@ int main() {
     if (programNaSpustenie == 1) {
         mainClient();
     } else {
-        mainServer();
+        mainServer(1025);
     }
     return 0;
 }

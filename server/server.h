@@ -3,6 +3,6 @@
 #ifndef SERVER
 #define SERVER
 
-void * mainServer();
+void mainServer(int port);
 
 #endif

@@ -1,7 +1,6 @@
 #include "client.h"
 
-void * mainClient()
+void mainClient()
 {
     printf("Client");
-    return 1;
 }

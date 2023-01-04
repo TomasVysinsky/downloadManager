@@ -1,4 +1,4 @@
-# Install script for directory: /tmp/tmp.MNkj9wYVTm
+# Install script for directory: /home/vysinsky2/clion/downloadManager
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/tmp/tmp.MNkj9wYVTm/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/vysinsky2/clion/downloadManager/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

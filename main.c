@@ -7,10 +7,12 @@ int main() {
     printf("Vyberte program, ktory si zelate spustit: \n 1) client\n 2) server\n");
     scanf("%d", &programNaSpustenie);
 
+    printf("Launching application:\n");
     //TODO treba doplnit komunikaciu o vzbranom programe a blbuvzdornost voci zlym cislam
     if (programNaSpustenie == 1) {
         mainClient();
     } else {
+        printf("Server\n");
         mainServer(1025);
     }
     return 0;

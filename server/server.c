@@ -10,6 +10,7 @@
 void mainServer(int port)
 {
     printf("Welcome to Server");
+    //return;
     int sockfd, newsockfd;
     socklen_t cli_len;
     struct sockaddr_in serv_addr, cli_addr;
@@ -29,6 +30,7 @@ void mainServer(int port)
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     //serv_addr.sin_port = htons(atoi(argv[1]));
     serv_addr.sin_port = htons(port);
+
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)

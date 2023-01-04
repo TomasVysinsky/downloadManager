@@ -10,7 +10,7 @@ int main() {
     printf("Launching application:\n");
     //TODO treba doplnit komunikaciu o vzbranom programe a blbuvzdornost voci zlym cislam
     if (programNaSpustenie == 1) {
-        mainClient();
+        mainClient("localhost");
     } else {
         printf("Server\n");
         mainServer(1025);

@@ -9,8 +9,39 @@
 
 void mainServer(int port)
 {
-    printf("Welcome to Server");
-    //return;
+    int end = 0;
+    printf("Welcome to Server\n");
+    while (!end)
+    {
+        printf("Choose type of server you want to launch:\n");
+        printf(" 1) TCP\n");
+        printf(" 2) FTP\n");
+        printf(" 3) HTTP\n");
+        int decision = 0;
+        scanf("%d", &decision);
+
+        switch (decision) {
+            case 1:
+                printf("You chose TCP server\n");
+                tcpProtokol(port);
+                end = 1;
+                break;
+            case 2:
+                printf("FTP server is not avaliable right now. Choose another one.\n");
+                break;
+            case 3:
+                printf("HTTP server is not avaliable right now. Choose another one.\n");
+                break;
+            default:
+                printf("Chose from the avaliable options.\n\n");
+        }
+    }
+}
+
+
+void tcpProtokol(int port)
+{
+    printf("Launching TCP server\n");
     int sockfd, newsockfd;
     socklen_t cli_len;
     struct sockaddr_in serv_addr, cli_addr;
@@ -31,7 +62,6 @@ void mainServer(int port)
     //serv_addr.sin_port = htons(atoi(argv[1]));
     serv_addr.sin_port = htons(port);
 
-
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
     {
@@ -45,6 +75,7 @@ void mainServer(int port)
         return;
     }
 
+    printf("Server listening...\n");
     listen(sockfd, 5);
     cli_len = sizeof(cli_addr);
 
@@ -54,6 +85,7 @@ void mainServer(int port)
         perror("ERROR on accept");
         return;
     }
+    printf("Connection accepted\n");
 
     bzero(buffer,256);
     n = read(newsockfd, buffer, 255);
@@ -74,5 +106,4 @@ void mainServer(int port)
 
     close(newsockfd);
     close(sockfd);
-
 }

@@ -3,17 +3,26 @@
 #include "server/server.h"
 
 int main() {
-    int programNaSpustenie = 1;
-    printf("Vyberte program, ktory si zelate spustit: \n 1) client\n 2) server\n");
-    scanf("%d", &programNaSpustenie);
+    int koniec = 0;
+    while (!koniec) {
+        int programNaSpustenie = 0;
+        printf("Vyberte program, ktory si zelate spustit:\n");
+        printf(" 1) client\n");
+        printf(" 2) server\n");
+        scanf("%d", &programNaSpustenie);
 
-    printf("Launching application:\n");
-    //TODO treba doplnit komunikaciu o vzbranom programe a blbuvzdornost voci zlym cislam
-    if (programNaSpustenie == 1) {
-        mainClient("localhost");
-    } else {
-        printf("Server\n");
-        mainServer(1025);
+        printf("\nLaunching application:\n");
+        if (programNaSpustenie == 1) {
+            printf("Client\n");
+            mainClient("localhost");
+            koniec = 1;
+        } else if (programNaSpustenie == 2) {
+            printf("Server\n");
+            mainServer(1025);
+            koniec = 1;
+        } else {
+            printf("Vyberte si z ponukanych moznosti \n\n");
+        }
     }
     return 0;
 }

@@ -11,7 +11,7 @@
 
 void mainClient(char * hostname)
 {
-    printf("Client");
+    printf("Welcome to Client\n");
 
     int sockfd, n;
     struct sockaddr_in serv_addr;

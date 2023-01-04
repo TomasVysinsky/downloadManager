@@ -9,7 +9,7 @@ int main() {
 
     //TODO treba doplnit komunikaciu o vzbranom programe a blbuvzdornost voci zlym cislam
     if (programNaSpustenie == 1) {
-        mainClient();
+        mainClient("localhost");
     } else {
         mainServer();
     }

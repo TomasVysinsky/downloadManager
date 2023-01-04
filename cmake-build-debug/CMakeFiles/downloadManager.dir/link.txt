@@ -1,1 +1,1 @@
-/usr/bin/cc -g CMakeFiles/downloadManager.dir/main.c.o -o downloadManager 
+/usr/bin/cc -g CMakeFiles/downloadManager.dir/main.c.o CMakeFiles/downloadManager.dir/client/client.c.o CMakeFiles/downloadManager.dir/server/server.c.o -o downloadManager 

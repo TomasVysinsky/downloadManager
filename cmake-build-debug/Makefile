@@ -67,10 +67,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /tmp/tmp.eF1PdS2iyF
+CMAKE_SOURCE_DIR = /tmp/tmp.MNkj9wYVTm
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /tmp/tmp.eF1PdS2iyF/cmake-build-debug
+CMAKE_BINARY_DIR = /tmp/tmp.MNkj9wYVTm/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.eF1PdS2iyF/cmake-build-debug/CMakeFiles /tmp/tmp.eF1PdS2iyF/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.MNkj9wYVTm/cmake-build-debug/CMakeFiles /tmp/tmp.MNkj9wYVTm/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.eF1PdS2iyF/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.MNkj9wYVTm/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -142,6 +142,33 @@ downloadManager/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/build
 .PHONY : downloadManager/fast
 
+client/client.o: client/client.c.o
+
+.PHONY : client/client.o
+
+# target to build an object file
+client/client.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/client/client.c.o
+.PHONY : client/client.c.o
+
+client/client.i: client/client.c.i
+
+.PHONY : client/client.i
+
+# target to preprocess a source file
+client/client.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/client/client.c.i
+.PHONY : client/client.c.i
+
+client/client.s: client/client.c.s
+
+.PHONY : client/client.s
+
+# target to generate assembly for a file
+client/client.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/client/client.c.s
+.PHONY : client/client.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -169,6 +196,33 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/main.c.s
 .PHONY : main.c.s
 
+server/server.o: server/server.c.o
+
+.PHONY : server/server.o
+
+# target to build an object file
+server/server.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/server/server.c.o
+.PHONY : server/server.c.o
+
+server/server.i: server/server.c.i
+
+.PHONY : server/server.i
+
+# target to preprocess a source file
+server/server.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/server/server.c.i
+.PHONY : server/server.c.i
+
+server/server.s: server/server.c.s
+
+.PHONY : server/server.s
+
+# target to generate assembly for a file
+server/server.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/server/server.c.s
+.PHONY : server/server.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -178,9 +232,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... downloadManager"
+	@echo "... client/client.o"
+	@echo "... client/client.i"
+	@echo "... client/client.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... server/server.o"
+	@echo "... server/server.i"
+	@echo "... server/server.s"
 .PHONY : help
 
 

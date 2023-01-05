@@ -142,87 +142,6 @@ downloadManager/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/build
 .PHONY : downloadManager/fast
 
-client/client.o: client/client.c.o
-
-.PHONY : client/client.o
-
-# target to build an object file
-client/client.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/client/client.c.o
-.PHONY : client/client.c.o
-
-client/client.i: client/client.c.i
-
-.PHONY : client/client.i
-
-# target to preprocess a source file
-client/client.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/client/client.c.i
-.PHONY : client/client.c.i
-
-client/client.s: client/client.c.s
-
-.PHONY : client/client.s
-
-# target to generate assembly for a file
-client/client.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/client/client.c.s
-.PHONY : client/client.c.s
-
-clientServer/client.o: clientServer/client.c.o
-
-.PHONY : clientServer/client.o
-
-# target to build an object file
-clientServer/client.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/client.c.o
-.PHONY : clientServer/client.c.o
-
-clientServer/client.i: clientServer/client.c.i
-
-.PHONY : clientServer/client.i
-
-# target to preprocess a source file
-clientServer/client.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/client.c.i
-.PHONY : clientServer/client.c.i
-
-clientServer/client.s: clientServer/client.c.s
-
-.PHONY : clientServer/client.s
-
-# target to generate assembly for a file
-clientServer/client.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/client.c.s
-.PHONY : clientServer/client.c.s
-
-clientServer/server.o: clientServer/server.c.o
-
-.PHONY : clientServer/server.o
-
-# target to build an object file
-clientServer/server.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/server.c.o
-.PHONY : clientServer/server.c.o
-
-clientServer/server.i: clientServer/server.c.i
-
-.PHONY : clientServer/server.i
-
-# target to preprocess a source file
-clientServer/server.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/server.c.i
-.PHONY : clientServer/server.c.i
-
-clientServer/server.s: clientServer/server.c.s
-
-.PHONY : clientServer/server.s
-
-# target to generate assembly for a file
-clientServer/server.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/server.c.s
-.PHONY : clientServer/server.c.s
-
 main.o: main.c.o
 
 .PHONY : main.o
@@ -250,33 +169,6 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/main.c.s
 .PHONY : main.c.s
 
-server/server.o: server/server.c.o
-
-.PHONY : server/server.o
-
-# target to build an object file
-server/server.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/server/server.c.o
-.PHONY : server/server.c.o
-
-server/server.i: server/server.c.i
-
-.PHONY : server/server.i
-
-# target to preprocess a source file
-server/server.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/server/server.c.i
-.PHONY : server/server.c.i
-
-server/server.s: server/server.c.s
-
-.PHONY : server/server.s
-
-# target to generate assembly for a file
-server/server.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/server/server.c.s
-.PHONY : server/server.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -286,21 +178,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... downloadManager"
-	@echo "... client/client.o"
-	@echo "... client/client.i"
-	@echo "... client/client.s"
-	@echo "... clientServer/client.o"
-	@echo "... clientServer/client.i"
-	@echo "... clientServer/client.s"
-	@echo "... clientServer/server.o"
-	@echo "... clientServer/server.i"
-	@echo "... clientServer/server.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... server/server.o"
-	@echo "... server/server.i"
-	@echo "... server/server.s"
 .PHONY : help
 
 

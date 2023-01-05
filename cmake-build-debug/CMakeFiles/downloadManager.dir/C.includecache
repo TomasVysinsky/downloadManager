@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/tmp/tmp.ZW79XHXcDm/clientServer/client.c
+/tmp/tmp.ZW79XHXcDm/client/client.c
 sys/types.h
 -
 sys/socket.h
@@ -47,6 +47,8 @@ stdio.h
 -
 string.h
 -
+client.h
+/tmp/tmp.ZW79XHXcDm/client/client.h
 sys/stat.h
 -
 sys/sendfile.h
@@ -54,7 +56,11 @@ sys/sendfile.h
 fcntl.h
 -
 
-/tmp/tmp.ZW79XHXcDm/clientServer/server.c
+/tmp/tmp.ZW79XHXcDm/client/client.h
+
+/tmp/tmp.ZW79XHXcDm/server/server.c
+server.h
+/tmp/tmp.ZW79XHXcDm/server/server.h
 sys/types.h
 -
 sys/socket.h
@@ -103,4 +109,6 @@ sys/sendfile.h
 -
 fcntl.h
 -
+
+/tmp/tmp.ZW79XHXcDm/server/server.h
 

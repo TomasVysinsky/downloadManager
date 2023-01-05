@@ -89,77 +89,17 @@ CMakeFiles/downloadManager.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/downloadManager.dir/main.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/tmp.ZW79XHXcDm/main.c -o CMakeFiles/downloadManager.dir/main.c.s
 
-CMakeFiles/downloadManager.dir/client/client.c.o: CMakeFiles/downloadManager.dir/flags.make
-CMakeFiles/downloadManager.dir/client/client.c.o: ../client/client.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/downloadManager.dir/client/client.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/client/client.c.o -c /tmp/tmp.ZW79XHXcDm/client/client.c
-
-CMakeFiles/downloadManager.dir/client/client.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/downloadManager.dir/client/client.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/tmp.ZW79XHXcDm/client/client.c > CMakeFiles/downloadManager.dir/client/client.c.i
-
-CMakeFiles/downloadManager.dir/client/client.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/downloadManager.dir/client/client.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/tmp.ZW79XHXcDm/client/client.c -o CMakeFiles/downloadManager.dir/client/client.c.s
-
-CMakeFiles/downloadManager.dir/server/server.c.o: CMakeFiles/downloadManager.dir/flags.make
-CMakeFiles/downloadManager.dir/server/server.c.o: ../server/server.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/downloadManager.dir/server/server.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/server/server.c.o -c /tmp/tmp.ZW79XHXcDm/server/server.c
-
-CMakeFiles/downloadManager.dir/server/server.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/downloadManager.dir/server/server.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/tmp.ZW79XHXcDm/server/server.c > CMakeFiles/downloadManager.dir/server/server.c.i
-
-CMakeFiles/downloadManager.dir/server/server.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/downloadManager.dir/server/server.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/tmp.ZW79XHXcDm/server/server.c -o CMakeFiles/downloadManager.dir/server/server.c.s
-
-CMakeFiles/downloadManager.dir/clientServer/client.c.o: CMakeFiles/downloadManager.dir/flags.make
-CMakeFiles/downloadManager.dir/clientServer/client.c.o: ../clientServer/client.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/downloadManager.dir/clientServer/client.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/clientServer/client.c.o -c /tmp/tmp.ZW79XHXcDm/clientServer/client.c
-
-CMakeFiles/downloadManager.dir/clientServer/client.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/downloadManager.dir/clientServer/client.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/tmp.ZW79XHXcDm/clientServer/client.c > CMakeFiles/downloadManager.dir/clientServer/client.c.i
-
-CMakeFiles/downloadManager.dir/clientServer/client.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/downloadManager.dir/clientServer/client.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/tmp.ZW79XHXcDm/clientServer/client.c -o CMakeFiles/downloadManager.dir/clientServer/client.c.s
-
-CMakeFiles/downloadManager.dir/clientServer/server.c.o: CMakeFiles/downloadManager.dir/flags.make
-CMakeFiles/downloadManager.dir/clientServer/server.c.o: ../clientServer/server.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/downloadManager.dir/clientServer/server.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/clientServer/server.c.o -c /tmp/tmp.ZW79XHXcDm/clientServer/server.c
-
-CMakeFiles/downloadManager.dir/clientServer/server.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/downloadManager.dir/clientServer/server.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/tmp.ZW79XHXcDm/clientServer/server.c > CMakeFiles/downloadManager.dir/clientServer/server.c.i
-
-CMakeFiles/downloadManager.dir/clientServer/server.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/downloadManager.dir/clientServer/server.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/tmp.ZW79XHXcDm/clientServer/server.c -o CMakeFiles/downloadManager.dir/clientServer/server.c.s
-
 # Object files for target downloadManager
 downloadManager_OBJECTS = \
-"CMakeFiles/downloadManager.dir/main.c.o" \
-"CMakeFiles/downloadManager.dir/client/client.c.o" \
-"CMakeFiles/downloadManager.dir/server/server.c.o" \
-"CMakeFiles/downloadManager.dir/clientServer/client.c.o" \
-"CMakeFiles/downloadManager.dir/clientServer/server.c.o"
+"CMakeFiles/downloadManager.dir/main.c.o"
 
 # External object files for target downloadManager
 downloadManager_EXTERNAL_OBJECTS =
 
 downloadManager: CMakeFiles/downloadManager.dir/main.c.o
-downloadManager: CMakeFiles/downloadManager.dir/client/client.c.o
-downloadManager: CMakeFiles/downloadManager.dir/server/server.c.o
-downloadManager: CMakeFiles/downloadManager.dir/clientServer/client.c.o
-downloadManager: CMakeFiles/downloadManager.dir/clientServer/server.c.o
 downloadManager: CMakeFiles/downloadManager.dir/build.make
 downloadManager: CMakeFiles/downloadManager.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable downloadManager"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable downloadManager"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/downloadManager.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

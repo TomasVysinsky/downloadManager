@@ -76,25 +76,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/tmp/tmp.ZW79XHXcDm/client/client.c">
-			<Option target="downloadManager"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ZW79XHXcDm/client/client.h">
-			<Option target="downloadManager"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ZW79XHXcDm/clientServer/client.c">
-			<Option target="downloadManager"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ZW79XHXcDm/clientServer/server.c">
-			<Option target="downloadManager"/>
-		</Unit>
 		<Unit filename="/tmp/tmp.ZW79XHXcDm/main.c">
-			<Option target="downloadManager"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ZW79XHXcDm/server/server.c">
-			<Option target="downloadManager"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ZW79XHXcDm/server/server.h">
 			<Option target="downloadManager"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.ZW79XHXcDm/CMakeLists.txt">

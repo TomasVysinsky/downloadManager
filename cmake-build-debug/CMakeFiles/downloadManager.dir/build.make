@@ -62,10 +62,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /tmp/tmp.MNkj9wYVTm
+CMAKE_SOURCE_DIR = /home/kivader1/clion/download_manager
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /tmp/tmp.MNkj9wYVTm/cmake-build-debug
+CMAKE_BINARY_DIR = /home/kivader1/clion/download_manager/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/downloadManager.dir/depend.make
@@ -78,42 +78,42 @@ include CMakeFiles/downloadManager.dir/flags.make
 
 CMakeFiles/downloadManager.dir/main.c.o: CMakeFiles/downloadManager.dir/flags.make
 CMakeFiles/downloadManager.dir/main.c.o: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.MNkj9wYVTm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/downloadManager.dir/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/main.c.o -c /tmp/tmp.MNkj9wYVTm/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/downloadManager.dir/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/main.c.o -c /home/kivader1/clion/download_manager/main.c
 
 CMakeFiles/downloadManager.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/downloadManager.dir/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/tmp.MNkj9wYVTm/main.c > CMakeFiles/downloadManager.dir/main.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kivader1/clion/download_manager/main.c > CMakeFiles/downloadManager.dir/main.c.i
 
 CMakeFiles/downloadManager.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/downloadManager.dir/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/tmp.MNkj9wYVTm/main.c -o CMakeFiles/downloadManager.dir/main.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kivader1/clion/download_manager/main.c -o CMakeFiles/downloadManager.dir/main.c.s
 
 CMakeFiles/downloadManager.dir/client/client.c.o: CMakeFiles/downloadManager.dir/flags.make
 CMakeFiles/downloadManager.dir/client/client.c.o: ../client/client.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.MNkj9wYVTm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/downloadManager.dir/client/client.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/client/client.c.o -c /tmp/tmp.MNkj9wYVTm/client/client.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/downloadManager.dir/client/client.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/client/client.c.o -c /home/kivader1/clion/download_manager/client/client.c
 
 CMakeFiles/downloadManager.dir/client/client.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/downloadManager.dir/client/client.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/tmp.MNkj9wYVTm/client/client.c > CMakeFiles/downloadManager.dir/client/client.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kivader1/clion/download_manager/client/client.c > CMakeFiles/downloadManager.dir/client/client.c.i
 
 CMakeFiles/downloadManager.dir/client/client.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/downloadManager.dir/client/client.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/tmp.MNkj9wYVTm/client/client.c -o CMakeFiles/downloadManager.dir/client/client.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kivader1/clion/download_manager/client/client.c -o CMakeFiles/downloadManager.dir/client/client.c.s
 
 CMakeFiles/downloadManager.dir/server/server.c.o: CMakeFiles/downloadManager.dir/flags.make
 CMakeFiles/downloadManager.dir/server/server.c.o: ../server/server.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.MNkj9wYVTm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/downloadManager.dir/server/server.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/server/server.c.o -c /tmp/tmp.MNkj9wYVTm/server/server.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/downloadManager.dir/server/server.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/downloadManager.dir/server/server.c.o -c /home/kivader1/clion/download_manager/server/server.c
 
 CMakeFiles/downloadManager.dir/server/server.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/downloadManager.dir/server/server.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/tmp.MNkj9wYVTm/server/server.c > CMakeFiles/downloadManager.dir/server/server.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kivader1/clion/download_manager/server/server.c > CMakeFiles/downloadManager.dir/server/server.c.i
 
 CMakeFiles/downloadManager.dir/server/server.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/downloadManager.dir/server/server.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/tmp.MNkj9wYVTm/server/server.c -o CMakeFiles/downloadManager.dir/server/server.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kivader1/clion/download_manager/server/server.c -o CMakeFiles/downloadManager.dir/server/server.c.s
 
 # Object files for target downloadManager
 downloadManager_OBJECTS = \
@@ -129,7 +129,7 @@ downloadManager: CMakeFiles/downloadManager.dir/client/client.c.o
 downloadManager: CMakeFiles/downloadManager.dir/server/server.c.o
 downloadManager: CMakeFiles/downloadManager.dir/build.make
 downloadManager: CMakeFiles/downloadManager.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.MNkj9wYVTm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable downloadManager"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable downloadManager"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/downloadManager.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -142,6 +142,6 @@ CMakeFiles/downloadManager.dir/clean:
 .PHONY : CMakeFiles/downloadManager.dir/clean
 
 CMakeFiles/downloadManager.dir/depend:
-	cd /tmp/tmp.MNkj9wYVTm/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /tmp/tmp.MNkj9wYVTm /tmp/tmp.MNkj9wYVTm /tmp/tmp.MNkj9wYVTm/cmake-build-debug /tmp/tmp.MNkj9wYVTm/cmake-build-debug /tmp/tmp.MNkj9wYVTm/cmake-build-debug/CMakeFiles/downloadManager.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/kivader1/clion/download_manager/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kivader1/clion/download_manager /home/kivader1/clion/download_manager /home/kivader1/clion/download_manager/cmake-build-debug /home/kivader1/clion/download_manager/cmake-build-debug /home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles/downloadManager.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/downloadManager.dir/depend
 

@@ -42,7 +42,8 @@ void mainClient(char * hostname)
                 break;
             case 2:
                 printf("FTP server is not avaliable right now. Choose another one.\n");
-                //ftpProtokol(port);
+                ftpClient(&hostname);
+                end = 1;
                 break;
             case 3:
                 printf("FTPS server is not avaliable right now. Choose another one.\n");
@@ -144,8 +145,8 @@ void ftpClient(char * hostname)
         exit(1);
     }
     server.sin_family = AF_INET;
-    server.sin_port = 1025;
-    server.sin_addr.s_addr = 0;
+    server.sin_port = htons(21);
+    server.sin_addr.s_addr = INADDR_ANY;
     k = connect(sock,(struct sockaddr*)&server, sizeof(server));
     if(k == -1)
     {
@@ -190,6 +191,8 @@ void ftpClient(char * hostname)
                 system(buf);
                 break;
             case 2:
+                // TODO Upload netreba?
+
                 printf("Enter filename to put to server: ");
                 scanf("%s", filename);
                 filehandle = open(filename, O_RDONLY);

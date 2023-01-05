@@ -38,7 +38,8 @@ void mainServer(int port)
                 break;
             case 2:
                 printf("FTP server is not avaliable right now. Choose another one.\n");
-                //ftpProtokol(port);
+                ftpProtokol(port);
+                end = 1;
                 break;
             case 3:
                 printf("HTTP server is not avaliable right now. Choose another one.\n");
@@ -135,7 +136,7 @@ void ftpProtokol(int port)
         exit(1);
     }
     server.sin_port = port;
-    server.sin_addr.s_addr = 0;
+    server.sin_addr.s_addr = INADDR_ANY;
     k = bind(sock1,(struct sockaddr*)&server,sizeof(server));
     if(k == -1)
     {

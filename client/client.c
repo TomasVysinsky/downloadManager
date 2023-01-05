@@ -36,12 +36,13 @@ void mainClient(char * hostname)
 
         switch (decision) {
             case 1:
-                printf("You chose TCP server\n");
+                printf("You chose TCP client\n");
                 tcpClient(&hostname);
                 end = 1;
                 break;
             case 2:
-                printf("FTP server is not avaliable right now. Choose another one.\n");
+                //printf("FTP server is not avaliable right now. Choose another one.\n");
+                printf("You chose FTP client\n");
                 ftpClient(&hostname);
                 end = 1;
                 break;
@@ -130,7 +131,6 @@ void tcpClient(char * hostname)
 void ftpClient(char * hostname)
 {
     //TODO skontrolovat ako funguje tato metoda
-
     struct sockaddr_in server;
     struct stat obj;
     int sock;
@@ -154,12 +154,10 @@ void ftpClient(char * hostname)
         exit(1);
     }
     int i = 1;
-    while(1)
-    {
+    while(1) {
         printf("Enter a choice:\n1- get\n2- put\n3- pwd\n4- ls\n5- cd\n6- quit\n");
         scanf("%d", &choice);
-        switch(choice)
-        {
+        switch (choice) {
             case 1:
                 printf("Enter filename to get: ");
                 scanf("%s", filename);
@@ -167,21 +165,18 @@ void ftpClient(char * hostname)
                 strcat(buf, filename);
                 send(sock, buf, 100, 0);
                 recv(sock, &size, sizeof(int), 0);
-                if(!size)
-                {
+                if (!size) {
                     printf("No such file on the remote directory\n\n");
                     break;
                 }
                 f = malloc(size);
                 recv(sock, f, size, 0);
-                while(1)
-                {
+                while (1) {
                     filehandle = open(filename, O_CREAT | O_EXCL | O_WRONLY, 0666);
-                    if(filehandle == -1)
-                    {
-                        sprintf(filename + strlen(filename), "%d", i);//needed only if same directory is used for both server and client
-                    }
-                    else break;
+                    if (filehandle == -1) {
+                        sprintf(filename + strlen(filename), "%d",
+                                i);//needed only if same directory is used for both server and client
+                    } else break;
                 }
                 //write(filehandle, f, size, 0);
                 write(filehandle, f, size);
@@ -196,8 +191,7 @@ void ftpClient(char * hostname)
                 printf("Enter filename to put to server: ");
                 scanf("%s", filename);
                 filehandle = open(filename, O_RDONLY);
-                if(filehandle == -1)
-                {
+                if (filehandle == -1) {
                     printf("No such file on the local directory\n\n");
                     break;
                 }
@@ -209,7 +203,7 @@ void ftpClient(char * hostname)
                 send(sock, &size, sizeof(int), 0);
                 sendfile(sock, filehandle, NULL, size);
                 recv(sock, &status, sizeof(int), 0);
-                if(status)
+                if (status)
                     printf("File stored successfully\n");
                 else
                     printf("File failed to be stored to remote machine\n");
@@ -239,7 +233,7 @@ void ftpClient(char * hostname)
                 scanf("%s", buf + 3);
                 send(sock, buf, 100, 0);
                 recv(sock, &status, sizeof(int), 0);
-                if(status)
+                if (status)
                     printf("Remote directory successfully changed\n");
                 else
                     printf("Remote directory failed to change\n");
@@ -248,8 +242,7 @@ void ftpClient(char * hostname)
                 strcpy(buf, "quit");
                 send(sock, buf, 100, 0);
                 recv(sock, &status, 100, 0);
-                if(status)
-                {
+                if (status) {
                     printf("Server closed\nQuitting..\n");
                     exit(0);
                 }

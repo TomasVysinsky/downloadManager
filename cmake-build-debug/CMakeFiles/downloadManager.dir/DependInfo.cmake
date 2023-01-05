@@ -5,6 +5,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/tmp/tmp.ZW79XHXcDm/client/client.c" "/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles/downloadManager.dir/client/client.c.o"
+  "/tmp/tmp.ZW79XHXcDm/clientServer/client.c" "/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles/downloadManager.dir/clientServer/client.c.o"
+  "/tmp/tmp.ZW79XHXcDm/clientServer/server.c" "/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles/downloadManager.dir/clientServer/server.c.o"
   "/tmp/tmp.ZW79XHXcDm/main.c" "/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles/downloadManager.dir/main.c.o"
   "/tmp/tmp.ZW79XHXcDm/server/server.c" "/tmp/tmp.ZW79XHXcDm/cmake-build-debug/CMakeFiles/downloadManager.dir/server/server.c.o"
   )

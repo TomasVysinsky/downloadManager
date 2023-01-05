@@ -169,6 +169,60 @@ client/client.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/client/client.c.s
 .PHONY : client/client.c.s
 
+clientServer/client.o: clientServer/client.c.o
+
+.PHONY : clientServer/client.o
+
+# target to build an object file
+clientServer/client.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/client.c.o
+.PHONY : clientServer/client.c.o
+
+clientServer/client.i: clientServer/client.c.i
+
+.PHONY : clientServer/client.i
+
+# target to preprocess a source file
+clientServer/client.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/client.c.i
+.PHONY : clientServer/client.c.i
+
+clientServer/client.s: clientServer/client.c.s
+
+.PHONY : clientServer/client.s
+
+# target to generate assembly for a file
+clientServer/client.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/client.c.s
+.PHONY : clientServer/client.c.s
+
+clientServer/server.o: clientServer/server.c.o
+
+.PHONY : clientServer/server.o
+
+# target to build an object file
+clientServer/server.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/server.c.o
+.PHONY : clientServer/server.c.o
+
+clientServer/server.i: clientServer/server.c.i
+
+.PHONY : clientServer/server.i
+
+# target to preprocess a source file
+clientServer/server.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/server.c.i
+.PHONY : clientServer/server.c.i
+
+clientServer/server.s: clientServer/server.c.s
+
+.PHONY : clientServer/server.s
+
+# target to generate assembly for a file
+clientServer/server.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/clientServer/server.c.s
+.PHONY : clientServer/server.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -235,6 +289,12 @@ help:
 	@echo "... client/client.o"
 	@echo "... client/client.i"
 	@echo "... client/client.s"
+	@echo "... clientServer/client.o"
+	@echo "... clientServer/client.i"
+	@echo "... clientServer/client.s"
+	@echo "... clientServer/server.o"
+	@echo "... clientServer/server.i"
+	@echo "... clientServer/server.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -1,3 +1,4 @@
+/*
 #include <stdio.h>
 #include "client/client.h"
 #include "server/server.h"
@@ -25,7 +26,8 @@ int main() {
             printf("Vyberte si z ponukanych moznosti \n\n");
         }
     }
-     */
+     *//*
     printf("Server a klient boli od hlavneho programu oddeleni.");
     return 0;
 }
+*/

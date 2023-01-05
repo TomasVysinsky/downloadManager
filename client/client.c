@@ -37,13 +37,13 @@ void mainClient(char * hostname)
         switch (decision) {
             case 1:
                 printf("You chose TCP client\n");
-                tcpClient(&hostname);
+                tcpClient(hostname);
                 end = 1;
                 break;
             case 2:
                 //printf("FTP server is not avaliable right now. Choose another one.\n");
                 printf("You chose FTP client\n");
-                ftpClient(&hostname);
+                ftpClient(hostname);
                 end = 1;
                 break;
             case 3:

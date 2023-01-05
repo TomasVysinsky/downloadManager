@@ -128,6 +128,7 @@ void tcpClient(char * hostname)
     close(sockfd);
 }
 
+/*
 void ftpClient(char * hostname)
 {
     //TODO skontrolovat ako funguje tato metoda
@@ -145,7 +146,7 @@ void ftpClient(char * hostname)
         exit(1);
     }
     server.sin_family = AF_INET;
-    server.sin_port = htons(21);
+    server.sin_port = htons(1026);
     server.sin_addr.s_addr = INADDR_ANY;
     k = connect(sock,(struct sockaddr*)&server, sizeof(server));
     if(k == -1)
@@ -249,4 +250,4 @@ void ftpClient(char * hostname)
                 printf("Server failed to close connection\n");
         }
     }
-}
+}*/

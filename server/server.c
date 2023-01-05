@@ -133,27 +133,30 @@ void ftpProtokol(int port)
     sock1 = socket(AF_INET, SOCK_STREAM, 0);
     if(sock1 == -1)
     {
-        printf("Socket creation failed");
+        printf("Socket creation failed\n");
         exit(1);
     }
     bzero((char*)&server, sizeof(server));
     server.sin_family = AF_INET;
-    server.sin_port = htons(port);
+    server.sin_port = htons(1026);
     server.sin_addr.s_addr = INADDR_ANY;
     k = bind(sock1,(struct sockaddr*)&server,sizeof(server));
     if(k == -1)
     {
-        printf("Binding error");
+        printf("Binding error\n");
         exit(1);
     }
+    printf("Server listening...\n");
     k = listen(sock1,1);
     if(k == -1)
     {
-        printf("Listen failed");
+        printf("Listen failed\n");
         exit(1);
     }
     len = sizeof(client);
+    printf("Server accepting...\n");
     sock2 = accept(sock1,(struct sockaddr*)&client, &len);
+    printf("Client accepted...\n");
     i = 1;
     while(1)
     {

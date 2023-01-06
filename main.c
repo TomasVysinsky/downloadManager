@@ -27,6 +27,7 @@ typedef struct downloader {
     SP * data;
 } DOWNLOADER;
 
+void showListOfURL(SP * spolData);
 void postponer();
 
 void * downloaderF(void * arg)
@@ -107,7 +108,32 @@ void launcher(SP spolData)
     printf("\nStahovanie skoncilo\n\n");
 }
 
+void addURL(SP *spolData) {
+    char* newURL;
+    int priority = 0;
+    printf("Zadajte pozadovanu URL adresu:\n");
+    scanf("%s", &newURL);
 
+    printf("Zadajte prioritu pre novu URL adresu: \n(0 a viac, cim vacsia tym nizsia priorita)\n");
+    scanf("%d", &priority);
+
+    // Algoritmus co zaradi novu URL na prislusne miesto podla priority tak, aby prvky s najvyssou prioritou ostali na konci
+    URL cur = { newURL, priority };
+    for (int i = 0; i <= spolData->aktualPocet; ++i) {
+        if (i == spolData->aktualPocet)
+        {
+            spolData->adresyNaStiahnutie[i] = cur;
+        } else {
+            if (cur.priority >= spolData->adresyNaStiahnutie[i].priority)
+            {
+                URL tmp = spolData->adresyNaStiahnutie[i];
+                spolData->adresyNaStiahnutie[i] = cur;
+                cur = tmp;
+            }
+        }
+    }
+    spolData->aktualPocet++;
+}
 
 int main() {
 
@@ -124,6 +150,7 @@ int main() {
     printf("Communicator running\n");
     while (pokracuj)
     {
+        showListOfURL(&spolData);
         printf("Zvolte akciu, ktoru si prajete vykonat:\n");
         printf(" 1) Spustenie stahovania\n");
         printf(" 2) Pridanie suboru na stahovanie\n");
@@ -131,13 +158,18 @@ int main() {
         printf(" 4) Historia\n");
         printf(" 5) Ukoncit program\n");
         scanf("%d", &decision);
+        printf("\n");
         switch (decision) {
             case 1:
-                spolData.aktualPocet = 6;
                 launcher(spolData);
                 break;
             case 2:
-                // TODO pridanie novej URL do zoznamu potrebnych URL
+                if (spolData.aktualPocet == spolData.maxPocet)
+                {
+                    printf("Poradovnik je plny.");
+                } else {
+                    addURL(&spolData);
+                }
                 break;
             case 3:
                 // TODO UI
@@ -168,6 +200,19 @@ int main() {
     pthread_cond_destroy(&zober);
 
     return 0;
+}
+
+void showListOfURL(SP * spolData){
+    printf("\n\nAktualny zoznam URL:\n");
+    if (spolData->aktualPocet == 0)
+    {
+        printf("V zozname sa nenachadzaju ziadne URL \n");
+    } else {
+        for (int i = 0; i < spolData->aktualPocet; ++i) {
+            printf("Priorita: %d Stranka: %s\n", spolData->adresyNaStiahnutie[i].priority, &spolData->adresyNaStiahnutie[i].address);
+        }
+    }
+    printf("\n\n");
 }
 
 void postponer()

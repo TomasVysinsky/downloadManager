@@ -9,6 +9,8 @@
 /home/vysinsky2/clion/downloadManagerProj/main.c
 stdio.h
 -
+curl/curl.h
+-
 stdlib.h
 -
 pthread.h

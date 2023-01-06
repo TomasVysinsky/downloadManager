@@ -34,7 +34,7 @@ void * downloaderF(void * arg)
     DOWNLOADER * dataD = arg;
     bool pokracuj = true;
     printf("%d downloader running\n", dataD->id);
-/*
+
     while (pokracuj)
     {
         pthread_mutex_lock(dataD->data->mutex);
@@ -72,7 +72,7 @@ void * downloaderF(void * arg)
 
         pthread_mutex_unlock(dataD->data->mutex);
     }
-*/
+
     printf("%d downloader ending\n", dataD->id);
     return NULL;
 }
@@ -106,6 +106,8 @@ void launcher(SP spolData)
 
     printf("\nStahovanie skoncilo\n\n");
 }
+
+
 
 int main() {
 

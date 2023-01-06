@@ -58,12 +58,44 @@ void * downloaderF(void * arg)
             pokracuj = false;
         }
 
-        dataD->pridelenaAdresa = "https://www.tutorialspoint.com";
+        dataD->pridelenaAdresa = "https://www.tutorialspoint.com/file.txt";
+
+        /* Extract the name of the file from URL */
+        char * filename;
+        filename = strrchr(dataD->pridelenaAdresa, '/');
+        if (filename != NULL) {
+            filename++; /* step over the slash */
+        }
         //decision aky protokol pouzit
         char * hlavicka;
         if ((hlavicka = strstr(dataD->pridelenaAdresa, "https://")) != NULL) {
             printf("HTTPS\n");
+            CURL *curl;
+            CURLcode res;
+            FILE *file;
 
+            curl = curl_easy_init();
+            if(curl) {
+                curl_easy_setopt(curl, CURLOPT_URL, dataD->pridelenaAdresa);
+
+                //printf("%s\n", filename);
+                file = fopen(filename, "wb");
+                curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+
+                /* Perform the request, res will get the return code */
+                res = curl_easy_perform(curl);
+
+                /* Check for errors */
+                if(res != CURLE_OK)
+                    fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                            curl_easy_strerror(res));
+
+                fclose(file);
+
+                /* always cleanup */
+                curl_easy_cleanup(curl);
+            }
+            return 0;
         } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "http://")) != NULL) {
             printf("HTTP\n");
         } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {

@@ -5,7 +5,7 @@
       <paths name="pos_2022 (4d0afe10-d085-48a8-a5ed-0b2aa7a53b1c)">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/vysinsky2/clion/downloadManagerProj" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/vysinsky2/clion/downloadManagerProj" local="$PROJECT_DIR$" web="" />
           </mappings>
         </serverdata>
       </paths>

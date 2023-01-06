@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <curl/curl.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <string.h>
 
 /*
 #include "client/client.h"
@@ -55,6 +57,24 @@ void * downloaderF(void * arg)
             printf("%d downloader is end\n", dataD->id);
             pokracuj = false;
         }
+
+        dataD->pridelenaAdresa = "https://www.tutorialspoint.com";
+        //decision aky protokol pouzit
+        char * hlavicka;
+        if ((hlavicka = strstr(dataD->pridelenaAdresa, "https://")) != NULL) {
+            printf("HTTPS\n");
+
+        } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "http://")) != NULL) {
+            printf("HTTP\n");
+        } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
+            printf("FTPS\n");
+        } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {
+            printf("FTP\n");
+        } else {
+            printf("Nepodporovana adresa!! (priklad: https://www.priklad.com)\n");
+        }
+        //implementovane protokoly
+
         pthread_mutex_unlock(dataD->data->mutex);
     }
 
@@ -90,7 +110,7 @@ void * communicatorF(void * arg)
 
 int main() {
 
-    int n = 6;
+    int n = 1;
     URL adresy[n];
     pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
     pthread_cond_t zober = PTHREAD_COND_INITIALIZER;

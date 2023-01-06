@@ -73,6 +73,10 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.18/Modules/Compiler/XL-C-DetermineCompiler.cmake"
   "/usr/share/cmake-3.18/Modules/Compiler/XLClang-C-DetermineCompiler.cmake"
   "/usr/share/cmake-3.18/Modules/Compiler/zOS-C-DetermineCompiler.cmake"
+  "/usr/share/cmake-3.18/Modules/FindCURL.cmake"
+  "/usr/share/cmake-3.18/Modules/FindPackageHandleStandardArgs.cmake"
+  "/usr/share/cmake-3.18/Modules/FindPackageMessage.cmake"
+  "/usr/share/cmake-3.18/Modules/FindPkgConfig.cmake"
   "/usr/share/cmake-3.18/Modules/Internal/CMakeCheckCompilerFlag.cmake"
   "/usr/share/cmake-3.18/Modules/Internal/FeatureTesting.cmake"
   "/usr/share/cmake-3.18/Modules/Platform/Linux-GNU-C.cmake"
@@ -80,6 +84,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.18/Modules/Platform/Linux.cmake"
   "/usr/share/cmake-3.18/Modules/Platform/UnixPaths.cmake"
   "/usr/share/cmake-3.18/Modules/ProcessorCount.cmake"
+  "/usr/share/cmake-3.18/Modules/SelectLibraryConfigurations.cmake"
   )
 
 # The corresponding makefile is:

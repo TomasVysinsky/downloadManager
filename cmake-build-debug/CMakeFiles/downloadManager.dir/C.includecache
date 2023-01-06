@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/tmp/tmp.ZW79XHXcDm/client/client.c
+/home/vysinsky2/clion/downloadManager/client/client.c
 sys/types.h
 -
 sys/socket.h
@@ -23,32 +23,8 @@ string.h
 -
 unistd.h
 -
-stdio.h
--
-sys/socket.h
--
-arpa/inet.h
--
-sys/stat.h
--
-sys/sendfile.h
--
-fcntl.h
--
-stdlib.h
--
-string.h
--
-unistd.h
--
-dirent.h
--
-stdio.h
--
-string.h
--
 client.h
-/tmp/tmp.ZW79XHXcDm/client/client.h
+/home/vysinsky2/clion/downloadManager/client/client.h
 sys/stat.h
 -
 sys/sendfile.h
@@ -56,11 +32,21 @@ sys/sendfile.h
 fcntl.h
 -
 
-/tmp/tmp.ZW79XHXcDm/client/client.h
+/home/vysinsky2/clion/downloadManager/client/client.h
+stdio.h
+-
 
-/tmp/tmp.ZW79XHXcDm/server/server.c
+/home/vysinsky2/clion/downloadManager/main.c
+stdio.h
+-
+client/client.h
+/home/vysinsky2/clion/downloadManager/client/client.h
+server/server.h
+/home/vysinsky2/clion/downloadManager/server/server.h
+
+/home/vysinsky2/clion/downloadManager/server/server.c
 server.h
-/tmp/tmp.ZW79XHXcDm/server/server.h
+/home/vysinsky2/clion/downloadManager/server/server.h
 sys/types.h
 -
 sys/socket.h
@@ -110,5 +96,7 @@ sys/sendfile.h
 fcntl.h
 -
 
-/tmp/tmp.ZW79XHXcDm/server/server.h
+/home/vysinsky2/clion/downloadManager/server/server.h
+stdio.h
+-
 

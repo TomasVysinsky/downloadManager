@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="pos_2022 (c820ddc2-394e-4e1b-b76c-849f8a73f159)" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="pos_2022 (4d0afe10-d085-48a8-a5ed-0b2aa7a53b1c)">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/tmp.ZW79XHXcDm" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/vysinsky2/clion/downloadManagerProj" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
           </excludedPaths>
         </serverdata>

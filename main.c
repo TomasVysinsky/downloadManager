@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <string.h>
 
 /*
 #include "client/client.h"
@@ -55,6 +56,11 @@ void * downloaderF(void * arg)
             printf("%d downloader is end\n", dataD->id);
             pokracuj = false;
         }
+        dataD->pridelenaAdresa = "adresa";
+        // decision ohladom ktory protokol pouzit
+        // pouzitie daneho protokolu
+
+
         pthread_mutex_unlock(dataD->data->mutex);
     }
 
@@ -90,7 +96,7 @@ void * communicatorF(void * arg)
 
 int main() {
 
-    int n = 6;
+    int n = 1;
     URL adresy[n];
     pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
     pthread_cond_t zober = PTHREAD_COND_INITIALIZER;
@@ -110,16 +116,21 @@ int main() {
     }
 
     bool pokracuj = true;
-    char decision = 0;
+    char* decision = NULL;
+    size_t len = 0;
+    ssize_t lineSize = 0;
+    system("console");
     printf("Communicator running\n");
     while (pokracuj)
     {
         printf("Zvolte akciu, ktoru si prajete vykonat:\n");
         printf(" a) ukoncit program\n");
         //scanf("%d", &decision);
-        decision = getchar();
+        //decision = getchar();
+        lineSize = getline(&decision, &len, stdin);
+        /*
         switch (decision) {
-            case 'a':
+            case "a":
                 printf("Ukoncujem program...\n");
                 pthread_mutex_lock(spolData.mutex);
                 printf("Main mutex\n");
@@ -132,6 +143,23 @@ int main() {
                 break;
             default:
                 printf("Program pokracuje\n");
+        }
+        */
+
+        if(strcmp(decision, "1\u2386") == 0)
+        {
+            printf("Ukoncujem program...\n");
+            pthread_mutex_lock(spolData.mutex);
+            printf("Main mutex\n");
+            spolData.jeKoniec = true;
+            pthread_cond_broadcast(spolData.zober);
+            printf("Main broadcast\n");
+            pthread_mutex_unlock(spolData.mutex);
+            printf("Main mutex unlock\n");
+            pokracuj = false;
+        } else {
+            printf("Vlozeny text:\n%s", decision);
+            printf("Program pokracuje\n");
         }
     }
 

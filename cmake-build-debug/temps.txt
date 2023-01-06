@@ -1,0 +1,9 @@
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+downloadManager
+downloadManager.cbp
+Makefile
+temps.txt
+temp.txt
+Testing

@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
 typedef struct url {
     char * address;
@@ -95,10 +96,30 @@ int main() {
     while (pokracuj)
     {
         printf("Zvolte akciu, ktoru si prajete vykonat:\n");
-        printf(" 1) ukoncit program\n");
+        printf(" 1) Spustenie stahovania\n");
+        printf(" 2) Pridanie suboru na stahovanie\n");
+        printf(" 3) Nastavenie adresara\n");
+        printf(" 4) Historia\n");
+        printf(" 5) Ukoncit program\n");
         scanf("%d", &decision);
         switch (decision) {
             case 1:
+                // TODO nastavenie casu zaciatku stahovania
+                // TODO spustenie potrebneho poctu vlakien
+                break;
+            case 2:
+                // TODO pridanie novej URL do zoznamu potrebnych URL
+                break;
+            case 3:
+                // TODO UI
+                    // TODO ls
+                    // TODO cd
+                    // TODO mkdir
+                break;
+            case 4:
+                // TODO solve the problem of modifying history (probably create a structure from existing txt and then save it back)
+                break;
+            case 5:
                 printf("Ukoncujem program...\n");
                 pthread_mutex_lock(spolData.mutex);
                 printf("Main mutex\n");

@@ -8,6 +8,10 @@
 #include<dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <netinet/in.h>
+#include <netdb.h>
+
+#define BUFSIZE 1024
 
 typedef struct url {
     char * address;
@@ -127,6 +131,77 @@ void * downloaderF(void * arg)
         }
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "http://")) != NULL) {
         printf("HTTP\n");
+
+        int sockfd, portno, n;
+        struct sockaddr_in serveraddr;
+        struct hostent *server;
+        char *hostname;
+        char buf[BUFSIZE];
+
+        /* check command line arguments */
+//    if (argc != 3) {
+//        fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
+//        exit(0);
+//    }
+        hostname = "http://speedtest.tele2.net/1MB.zip";
+        portno = 80;
+
+        /* socket: create the socket */
+        sockfd = socket(AF_INET, SOCK_STREAM, 0);
+        if (sockfd < 0) {
+            perror("ERROR opening socket");
+            exit(0);
+        }
+
+        /* gethostbyname: get the server's DNS entry */
+        server = gethostbyname(hostname);
+        if (server == NULL) {
+            fprintf(stderr,"ERROR, no such host as %s\n", hostname);
+            exit(0);
+        }
+
+        /* build the server's Internet address */
+        bzero((char *) &serveraddr, sizeof(serveraddr));
+        serveraddr.sin_family = AF_INET;
+        bcopy((char *)server->h_addr,
+              (char *)&serveraddr.sin_addr.s_addr, server->h_length);
+        serveraddr.sin_port = htons(portno);
+
+        /* connect: create a connection with the server */
+        if (connect(sockfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0) {
+            perror("ERROR connecting");
+            exit(0);
+        }
+
+        /* send the HTTP GET request */
+        sprintf(buf, "GET /1MB.zip HTTP/1.1\r\nHost: %s\r\n\r\n", hostname);
+        n = write(sockfd, buf, strlen(buf));
+        if (n < 0) {
+            perror("ERROR writing to socket");
+            exit(0);
+        }
+
+        /* open the file for writing */
+        FILE *fp = fopen("file.zip", "w");
+        if (fp == NULL) {
+            perror("ERROR opening file");
+            exit(0);
+        }
+
+        /* receive the response */
+        bzero(buf, BUFSIZE);
+        while ((n = read(sockfd, buf, BUFSIZE)) > 0) {
+            /* write the data to the file */
+            fwrite(buf, 1, n, fp);
+            bzero(buf, BUFSIZE);
+        }
+        if (n < 0) {
+            perror("ERROR reading from socket");
+            exit(0);
+        }
+
+        /* close the file */
+        fclose(fp);
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
         printf("FTPS\n");
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {

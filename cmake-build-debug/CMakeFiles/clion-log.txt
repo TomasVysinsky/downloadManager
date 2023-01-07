@@ -1,4 +1,11 @@
-/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/vysinsky2/clion/downloadManagerProj -B /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/kivader1/clion/download_manager -B /home/kivader1/clion/download_manager/cmake-build-debug
+-- The C compiler identification is GNU 10.2.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Found CURL: /usr/lib/x86_64-linux-gnu/libcurl.so (found version "7.74.0")  
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug
+-- Build files have been written to: /home/kivader1/clion/download_manager/cmake-build-debug

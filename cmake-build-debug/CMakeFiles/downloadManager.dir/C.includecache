@@ -6,23 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/vysinsky2/clion/downloadManagerProj/main.c
+/home/kivader1/clion/download_manager/main.c
 stdio.h
 -
-curl/curl.h
--
-stdlib.h
--
-pthread.h
--
-unistd.h
--
-stdbool.h
--
-string.h
--
 client/client.h
-/home/vysinsky2/clion/downloadManagerProj/client/client.h
+/home/kivader1/clion/download_manager/client/client.h
 server/server.h
-/home/vysinsky2/clion/downloadManagerProj/server/server.h
+/home/kivader1/clion/download_manager/server/server.h
 

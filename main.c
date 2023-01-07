@@ -73,7 +73,9 @@ void * downloaderF(void * arg)
 
     pthread_mutex_unlock(dataD->data->mutex);
 
-    dataD->pridelenaAdresa = "https://www.tutorialspoint.com/file.txt";
+    dataD->pridelenaAdresa = "https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg";
+    //http://speedtest.tele2.net/1MB.zip
+    //https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg
 
     /* Extract the name of the file from URL */
     char * filename;
@@ -85,32 +87,44 @@ void * downloaderF(void * arg)
     char * hlavicka;
     if ((hlavicka = strstr(dataD->pridelenaAdresa, "https://")) != NULL) {
         printf("HTTPS\n");
+
         CURL *curl;
-        CURLcode res;
+        CURLcode result;
         FILE *file;
 
         curl = curl_easy_init();
         if(curl) {
             curl_easy_setopt(curl, CURLOPT_URL, dataD->pridelenaAdresa);
 
-            //printf("%s\n", filename);
+            /* Extract the name of the file from URL */
+            filename = strrchr(dataD->pridelenaAdresa, '/');
+            if (filename != NULL) {
+                filename++; /* step over the slash */
+            }
+
+            printf("%s\n", filename);
             file = fopen(filename, "wb");
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
 
+            /* Include detecting HTTPS errors */
+            curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
+
             /* Perform the request, res will get the return code */
-            res = curl_easy_perform(curl);
+            result = curl_easy_perform(curl);
 
             /* Check for errors */
-            if(res != CURLE_OK)
+            if (result != CURLE_OK)
                 fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                        curl_easy_strerror(res));
+                        curl_easy_strerror(result));
 
             fclose(file);
 
             /* always cleanup */
             curl_easy_cleanup(curl);
+        } else {
+            fprintf(stderr, "Error: something went wrong initializing curl\n");
+            return 1;
         }
-        return 0;
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "http://")) != NULL) {
         printf("HTTP\n");
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {

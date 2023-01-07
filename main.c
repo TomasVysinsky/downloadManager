@@ -14,6 +14,20 @@ typedef struct url {
     int priority;
 } URL;
 
+typedef struct historyNode {
+    int id;
+    char * address;
+    char * date;
+    char * time;
+} HN;
+
+typedef struct history {
+    HN * nody;
+    int maxPocet;
+    int aktualPocet;
+    pthread_mutex_t * mutex;
+} HISTORY;
+
 typedef struct SpolData {
     URL * adresyNaStiahnutie;
     int maxPocet;
@@ -253,13 +267,65 @@ int main() {
 
     int n = 10;
     URL adresy[n];
-    pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_t mutADD = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_t mutHIS = PTHREAD_MUTEX_INITIALIZER;
     pthread_cond_t zober = PTHREAD_COND_INITIALIZER;
-    SP spolData = {adresy, n, 0, false, "./",&mut, &zober};
+    SP spolData = {adresy, n, 0, false, "./", &mutADD, &zober};
+
+    // processing of time for the future needs
+    /*
+    time_t t;
+    time(&t);
+    printf("%s\n\n", ctime(&t));
+    *//*
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    */
+
+
+    // Vznik modulu historie
+    char filename[20] = "history.txt";
+    int h;
+    int count = 0;
+    FILE * file = fopen(filename, "r");
+    // Cast kde sa podla toho ci history file existuje urci, aky velky bude modul historie
+    if (file != NULL) {
+        // history file exists
+        char c;
+        for (c = getc(file); c != EOF; c = getc(file))
+            if (c == '\n') // Increment count if this character is newline
+                count++;
+        h = count - 1 + 30;
+        rewind(file);
+    } else {
+        // file doesn't exist
+        h = 30;
+    }
+    HN nody[h];
+
+    if (file != NULL) {
+        int index = 0;
+        char * address;
+        fscanf(file, "%s", &address);
+        int id;
+        char * date;
+        char * time;
+        while (fscanf(file, "%d %s %s %s ", &id, &address, &date, &time) == 1)
+        {
+            nody[index].id = id;
+            nody[index].address = address;
+            nody[index].date = date;
+            nody[index].time = time;
+            index++;
+        }
+    }
+    HISTORY historia = { nody, h, count, &mutHIS};
+
 
     bool pokracuj = true;
     int decision = 0;
-    printf("Communicator running\n");
+    //printf("Communicator running\n");
     while (pokracuj)
     {
         showListOfURL(&spolData);
@@ -298,7 +364,8 @@ int main() {
         }
     }
 
-    pthread_mutex_destroy(&mut);
+    pthread_mutex_destroy(&mutADD);
+    pthread_mutex_destroy(&mutHIS);
     pthread_cond_destroy(&zober);
 
     return 0;

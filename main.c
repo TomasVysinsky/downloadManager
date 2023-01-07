@@ -42,6 +42,7 @@ typedef struct downloader {
     int id;
     char * pridelenaAdresa;
     SP * data;
+    HISTORY * history;
 } DOWNLOADER;
 
 void showListOfURL(SP * spolData);
@@ -53,81 +54,99 @@ void * downloaderF(void * arg)
     bool pokracuj = true;
     printf("%d downloader running\n", dataD->id);
 
-    while (pokracuj)
+
+    pthread_mutex_lock(dataD->data->mutex);
+    printf("%d downloader mutex\n", dataD->id);
+    while (dataD->data->aktualPocet <= 0 && !dataD->data->jeKoniec)
     {
-        pthread_mutex_lock(dataD->data->mutex);
-        printf("%d downloader mutex\n", dataD->id);
-        while (dataD->data->aktualPocet <= 0 && !dataD->data->jeKoniec)
-        {
-            printf("%d downloader waiting\n", dataD->id);
-            pthread_cond_wait(dataD->data->zapisuj, dataD->data->mutex);
-            printf("%d downloader running\n", dataD->id);
-        }
-        if (dataD->data->jeKoniec)
-        {
-            printf("%d downloader is end\n", dataD->id);
-            pokracuj = false;
-        }
-
-        // TODO metoda vyberania URL adries z poradovnika
-
-        dataD->pridelenaAdresa = "https://www.tutorialspoint.com/file.txt";
-
-        /* Extract the name of the file from URL */
-        char * filename;
-        filename = strrchr(dataD->pridelenaAdresa, '/');
-        if (filename != NULL) {
-            filename++; /* step over the slash */
-        }
-        //decision aky protokol pouzit
-        char * hlavicka;
-        if ((hlavicka = strstr(dataD->pridelenaAdresa, "https://")) != NULL) {
-            printf("HTTPS\n");
-            CURL *curl;
-            CURLcode res;
-            FILE *file;
-
-            curl = curl_easy_init();
-            if(curl) {
-                curl_easy_setopt(curl, CURLOPT_URL, dataD->pridelenaAdresa);
-
-                //printf("%s\n", filename);
-                file = fopen(filename, "wb");
-                curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-
-                /* Perform the request, res will get the return code */
-                res = curl_easy_perform(curl);
-
-                /* Check for errors */
-                if(res != CURLE_OK)
-                    fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                            curl_easy_strerror(res));
-
-                fclose(file);
-
-                /* always cleanup */
-                curl_easy_cleanup(curl);
-            }
-            return 0;
-        } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "http://")) != NULL) {
-            printf("HTTP\n");
-        } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
-            printf("FTPS\n");
-        } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {
-            printf("FTP\n");
-        } else {
-            printf("Nepodporovana adresa!! (priklad: https://www.priklad.com)\n");
-        }
-        //implementovane protokoly
-
-        pthread_mutex_unlock(dataD->data->mutex);
+        printf("%d downloader waiting\n", dataD->id);
+        pthread_cond_wait(dataD->data->zapisuj, dataD->data->mutex);
+        printf("%d downloader running\n", dataD->id);
     }
+    if (dataD->data->jeKoniec)
+    {
+        printf("%d downloader is end\n", dataD->id);
+        pokracuj = false;
+    }
+
+    // TODO metoda vyberania URL adries z poradovnika
+
+    pthread_mutex_unlock(dataD->data->mutex);
+
+    dataD->pridelenaAdresa = "https://www.tutorialspoint.com/file.txt";
+
+    /* Extract the name of the file from URL */
+    char * filename;
+    filename = strrchr(dataD->pridelenaAdresa, '/');
+    if (filename != NULL) {
+        filename++; /* step over the slash */
+    }
+    //decision aky protokol pouzit
+    char * hlavicka;
+    if ((hlavicka = strstr(dataD->pridelenaAdresa, "https://")) != NULL) {
+        printf("HTTPS\n");
+        CURL *curl;
+        CURLcode res;
+        FILE *file;
+
+        curl = curl_easy_init();
+        if(curl) {
+            curl_easy_setopt(curl, CURLOPT_URL, dataD->pridelenaAdresa);
+
+            //printf("%s\n", filename);
+            file = fopen(filename, "wb");
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+
+            /* Perform the request, res will get the return code */
+            res = curl_easy_perform(curl);
+
+            /* Check for errors */
+            if(res != CURLE_OK)
+                fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                        curl_easy_strerror(res));
+
+            fclose(file);
+
+            /* always cleanup */
+            curl_easy_cleanup(curl);
+        }
+        return 0;
+    } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "http://")) != NULL) {
+        printf("HTTP\n");
+    } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
+        printf("FTPS\n");
+    } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {
+        printf("FTP\n");
+    } else {
+        printf("Nepodporovana adresa!! (priklad: https://www.priklad.com)\n");
+    }
+    //implementovane protokoly
+
+
+
+    // Zapis historie
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    char date[50];
+    sprintf(date, "%d-%02d-%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+    char time[50];
+    sprintf(date, "%02d:%02d:%02d", tm.tm_hour, tm.tm_min, tm.tm_sec);
+
+    // TODO zapisovanie do historie
+    pthread_mutex_lock(dataD->history->mutex);
+    dataD->history->nody[dataD->history->aktualPocet].id = dataD->history->aktualPocet + 1;
+    dataD->history->nody[dataD->history->aktualPocet].address = dataD->pridelenaAdresa;
+    dataD->history->nody[dataD->history->aktualPocet].date = date;
+    dataD->history->nody[dataD->history->aktualPocet].time = time;
+    dataD->history->aktualPocet++;
+    pthread_mutex_unlock(dataD->history->mutex);
 
     printf("%d downloader ending\n", dataD->id);
     return NULL;
 }
 
-void launcher(SP spolData)
+void launcher(SP *spolData, HISTORY *history)
 {
     int decision = 0;
     printf("Prajete si naplanovat cas spustenia?\n");
@@ -139,13 +158,14 @@ void launcher(SP spolData)
 
     printf("\nZaciatok stahovania\n\n");
 
-    int n = spolData.aktualPocet;
+    int n = spolData->aktualPocet;
     pthread_t downloaders[n];
     DOWNLOADER downloadersD[n];
     for (int i = 0; i < n; ++i) {
         downloadersD[i].id = i + 1;
         downloadersD[i].pridelenaAdresa = NULL;
-        downloadersD[i].data = &spolData;
+        downloadersD[i].data = spolData;
+        downloadersD[i].history = history;
         pthread_create(&downloaders[i], NULL, downloaderF, &downloadersD[i]);
     }
 
@@ -286,7 +306,7 @@ int main() {
 
     // Vznik modulu historie
     char filename[20] = "history.txt";
-    int h;
+    int h = 50;
     int count = 0;
     FILE * file = fopen(filename, "r");
     // Cast kde sa podla toho ci history file existuje urci, aky velky bude modul historie
@@ -297,11 +317,8 @@ int main() {
             if (c == '\n') // Increment count if this character is newline
                 count++;
         count--;
-        h = count + 30;
+        h += count;
         rewind(file);
-    } else {
-        // file doesn't exist
-        h = 30;
     }
     HN nody[h];
 
@@ -323,7 +340,7 @@ int main() {
         }
         fclose(file);
     }
-    HISTORY historia = { nody, h, count, &mutHIS};
+    HISTORY history = {nody, h, count, &mutHIS};
 
 
     bool pokracuj = true;
@@ -342,7 +359,7 @@ int main() {
         printf("\n");
         switch (decision) {
             case 1:
-                launcher(spolData);
+                launcher(&spolData, &history);
                 break;
             case 2:
                 if (spolData.aktualPocet == spolData.maxPocet)
@@ -356,16 +373,15 @@ int main() {
                 directoryControl(&spolData);
                 break;
             case 4:
-                if (historia.aktualPocet == 0)
+                if (history.aktualPocet == 0)
                 {
                     printf("Momentalne sa tu nenachadza ziaden historicky zaznam.\n");
                 } else {
-                    for (int i = 0; i < historia.aktualPocet; ++i) {
+                    for (int i = 0; i < history.aktualPocet; ++i) {
 
-                        printf("%d %s %s %s \n", historia.nody[i].id, historia.nody[i].address, historia.nody[i].date, historia.nody[i].time);
+                        printf("%d %s %s %s \n", history.nody[i].id, history.nody[i].address, history.nody[i].date, history.nody[i].time);
                     }
                 }
-                // TODO solve the problem of modifying history (probably create a structure from existing txt and then save it back)
                 break;
             case 5:
                 printf("Ukoncujem program...\n");
@@ -386,8 +402,8 @@ int main() {
     char * tmp = "History";
     fprintf(file, "%s\n", tmp);
     tmp = " \n";
-    for (int i = 0; i < historia.aktualPocet; ++i) {
-        fprintf(file, "%d %s %s %s \n", historia.nody[i].id, historia.nody[i].address, historia.nody[i].date, historia.nody[i].time);
+    for (int i = 0; i < history.aktualPocet; ++i) {
+        fprintf(file, "%d %s %s %s \n", history.nody[i].id, history.nody[i].address, history.nody[i].date, history.nody[i].time);
     }
     fclose(file);
 

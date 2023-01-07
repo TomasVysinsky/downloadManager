@@ -73,11 +73,17 @@ void * downloaderF(void * arg)
         pokracuj = false;
     }
 
-    // TODO metoda vyberania URL adries z poradovnika
+    if (dataD->data->aktualPocet == 0)
+    {
+        printf("%d downloader found an empty address queue. Ending...\n", dataD->id);
+        return NULL;
+    }
+    dataD->data->aktualPocet--;
+    dataD->pridelenaAdresa = dataD->data->adresyNaStiahnutie[dataD->data->aktualPocet].address;
 
     pthread_mutex_unlock(dataD->data->mutex);
 
-    dataD->pridelenaAdresa = "https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg";
+    //dataD->pridelenaAdresa = "https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg";
     //http://speedtest.tele2.net/1MB.zip
     //https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg
 
@@ -216,7 +222,6 @@ void * downloaderF(void * arg)
     // Zapis historie
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
     char date[50];
     sprintf(date, "%d-%02d-%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
     char time[50];

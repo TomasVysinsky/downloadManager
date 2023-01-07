@@ -143,6 +143,7 @@ void * downloaderF(void * arg)
         struct hostent *server;
         char *hostname;
         char buf[BUFSIZE];
+        FILE *file;
 
         /* check command line arguments */
 //    if (argc != 3) {
@@ -179,7 +180,7 @@ void * downloaderF(void * arg)
             exit(0);
         }
 
-        /* send the HTTP GET request */
+        /* send the HTTP GET request: GET [cesta k suboru - treba parser] */
         sprintf(buf, "GET /1MB.zip HTTP/1.1\r\nHost: %s\r\n\r\n", hostname);
         n = write(sockfd, buf, strlen(buf));
         if (n < 0) {
@@ -188,8 +189,8 @@ void * downloaderF(void * arg)
         }
 
         /* open the file for writing */
-        FILE *fp = fopen("file.zip", "w");
-        if (fp == NULL) {
+        file = fopen(filename, "w");
+        if (file == NULL) {
             perror("ERROR opening file");
             exit(0);
         }
@@ -198,7 +199,7 @@ void * downloaderF(void * arg)
         bzero(buf, BUFSIZE);
         while ((n = read(sockfd, buf, BUFSIZE)) > 0) {
             /* write the data to the file */
-            fwrite(buf, 1, n, fp);
+            fwrite(buf, 1, n, file);
             bzero(buf, BUFSIZE);
         }
         if (n < 0) {
@@ -207,7 +208,7 @@ void * downloaderF(void * arg)
         }
 
         /* close the file */
-        fclose(fp);
+        fclose(file);
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
         printf("FTPS\n");
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {

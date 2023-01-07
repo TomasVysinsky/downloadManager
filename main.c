@@ -5,7 +5,9 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
-#include <time.h>
+#include<dirent.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 typedef struct url {
     char * address;
@@ -17,6 +19,7 @@ typedef struct SpolData {
     int maxPocet;
     int aktualPocet;
     bool jeKoniec;
+    char directory[128];
     pthread_mutex_t * mutex;
     pthread_cond_t * zapisuj;
 } SP;
@@ -135,13 +138,92 @@ void addURL(SP *spolData) {
     spolData->aktualPocet++;
 }
 
+void directoryControl(SP *spolData) {
+    bool pokracuj = true;
+    int decision = 0;
+    DIR *dp = NULL;
+    char dir[128];
+    char parameter[200];
+    while (pokracuj) {
+        printf("Zvolte akciu, ktoru si prajete vykonat:\n");
+        printf(" 1) Ukaz aktualny priecinok\n"); //pwd
+        printf(" 2) Zmen aktualny priecinok\n"); //cd
+        printf(" 3) Vytvor priecinok\n"); //mkdir
+        printf(" 4) Zmaz priecinok\n"); //rm -r
+        printf(" 5) Ukaz subory v aktualnom priecinku\n"); //ls
+        printf(" 6) Navrat do hlavneho menu\n");
+        scanf("%d", &decision);
+        printf("\n");
+        switch (decision) {
+            case 1:
+                printf("");
+                char commandRL[20] = "readlink -f ";
+                strcat(commandRL, spolData->directory);
+                system(commandRL);
+                break;
+            case 2:
+                printf("Zadajte nazov suboru, ktory chcete vytvorit:\n");
+                scanf("%s", parameter);
+
+                // Zabezpecenie aby sa na konci nachadzal /
+                if(parameter[strlen(parameter)-1] != '/')
+                {
+                    strcat(parameter,"/");
+                }
+
+                if(NULL == (dp = opendir(parameter)) )
+                {
+                    printf("\n Zadana adresa neexistuje [%s]\n", parameter);
+                } else {
+                    strcpy(spolData->directory, parameter);
+                    closedir(dp);
+                }
+                break;
+            case 3:
+                printf("Zadajte nazov suboru, ktory chcete vytvorit:\n");
+                scanf("%s", parameter);
+                char commandMD[10] = "mkdir ";
+                //chystanie adresy na vymazavanie
+                strcpy(dir, spolData->directory);
+                strcat(commandMD, dir);
+                strcat(commandMD, parameter);
+                //printf("%s\n", &commandRM);
+                system(commandMD);
+                break;
+            case 4:
+                printf("Zadajte subor alebo priecinok ktory chcete vymazat:\n");
+                scanf("%s", parameter);
+                char commandRM[10] = "rm -r ";
+                //chystanie adresy na vymazavanie
+                strcpy(dir, spolData->directory);
+                strcat(commandRM, dir);
+                strcat(commandRM, parameter);
+                //printf("%s\n", &commandRM);
+                system(commandRM);
+                break;
+            case 5:
+                printf("");
+                char commandLS[10] = "ls ";
+                strcat(commandLS, spolData->directory);
+                system(commandLS);
+                break;
+            case 6:
+                pokracuj = false;
+                break;
+            default:
+                printf("\nZvolte jednu z ponukanych moznosti\n");
+        }
+        printf("\n");
+    }
+}
+
 int main() {
 
     int n = 10;
     URL adresy[n];
     pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
     pthread_cond_t zober = PTHREAD_COND_INITIALIZER;
-    SP spolData = {adresy, n, 0, false, &mut, &zober};
+    SP spolData = {adresy, n, 0, false, "./",&mut, &zober};
 
 
 
@@ -172,10 +254,7 @@ int main() {
                 }
                 break;
             case 3:
-                // TODO UI
-                    // TODO ls
-                    // TODO cd
-                    // TODO mkdir
+                directoryControl(&spolData);
                 break;
             case 4:
                 // TODO solve the problem of modifying history (probably create a structure from existing txt and then save it back)

@@ -225,8 +225,6 @@ int main() {
     pthread_cond_t zober = PTHREAD_COND_INITIALIZER;
     SP spolData = {adresy, n, 0, false, "./",&mut, &zober};
 
-
-
     bool pokracuj = true;
     int decision = 0;
     printf("Communicator running\n");
@@ -261,13 +259,6 @@ int main() {
                 break;
             case 5:
                 printf("Ukoncujem program...\n");
-                /*pthread_mutex_lock(spolData.mutex);
-                printf("Main mutex\n");
-                spolData.jeKoniec = true;
-                pthread_cond_broadcast(spolData.zapisuj);
-                printf("Main broadcast\n");
-                pthread_mutex_unlock(spolData.mutex);
-                printf("Main mutex unlock\n");*/
                 pokracuj = false;
                 break;
             default:

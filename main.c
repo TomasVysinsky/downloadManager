@@ -304,6 +304,7 @@ int main() {
     }
     HN nody[h];
 
+    // Nacitanie Historie do nodov a modulu
     if (file != NULL) {
         int index = 0;
         char * address;

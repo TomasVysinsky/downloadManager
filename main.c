@@ -347,7 +347,7 @@ int main() {
             case 2:
                 if (spolData.aktualPocet == spolData.maxPocet)
                 {
-                    printf("Poradovnik je plny.");
+                    printf("Poradovnik je plny.\n");
                 } else {
                     addURL(&spolData);
                 }
@@ -356,6 +356,15 @@ int main() {
                 directoryControl(&spolData);
                 break;
             case 4:
+                if (historia.aktualPocet == 0)
+                {
+                    printf("Momentalne sa tu nenachadza ziaden historicky zaznam.\n");
+                } else {
+                    for (int i = 0; i < historia.aktualPocet; ++i) {
+
+                        printf("%d %s %s %s \n", historia.nody[i].id, historia.nody[i].address, historia.nody[i].date, historia.nody[i].time);
+                    }
+                }
                 // TODO solve the problem of modifying history (probably create a structure from existing txt and then save it back)
                 break;
             case 5:

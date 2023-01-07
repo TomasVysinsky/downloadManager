@@ -296,7 +296,8 @@ int main() {
         for (c = getc(file); c != EOF; c = getc(file))
             if (c == '\n') // Increment count if this character is newline
                 count++;
-        h = count - 1 + 30;
+        count--;
+        h = count + 30;
         rewind(file);
     } else {
         // file doesn't exist
@@ -308,11 +309,11 @@ int main() {
     if (file != NULL) {
         int index = 0;
         char * address;
-        fscanf(file, "%s", &address);
+        fscanf(file, "%s\n", &address);
         int id;
         char * date;
         char * time;
-        while (fscanf(file, "%d %s %s %s ", &id, &address, &date, &time) == 1)
+        while (fscanf(file, "%d %s %s %s \n", &id, &address, &date, &time) == 1)
         {
             nody[index].id = id;
             nody[index].address = address;
@@ -320,6 +321,7 @@ int main() {
             nody[index].time = time;
             index++;
         }
+        fclose(file);
     }
     HISTORY historia = { nody, h, count, &mutHIS};
 
@@ -364,6 +366,21 @@ int main() {
                 printf("\nZvolte jednu z ponukanych moznosti\n\n");
         }
     }
+
+    file = fopen(filename, "w");
+    if (file == NULL)
+    {
+        fprintf(stderr, "\nError opened file\n");
+        exit (1);
+    }
+
+    char * tmp = "History";
+    fprintf(file, "%s\n", tmp);
+    tmp = " \n";
+    for (int i = 0; i < historia.aktualPocet; ++i) {
+        fprintf(file, "%d %s %s %s \n", historia.nody[i].id, historia.nody[i].address, historia.nody[i].date, historia.nody[i].time);
+    }
+    fclose(file);
 
     pthread_mutex_destroy(&mutADD);
     pthread_mutex_destroy(&mutHIS);

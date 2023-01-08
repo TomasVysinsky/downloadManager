@@ -347,7 +347,7 @@ void directoryControl(SP *spolData) {
                 system(commandRL);
                 break;
             case 2:
-                printf("Zadajte nazov suboru, ktory chcete vytvorit:\n");
+                printf("Zadajte cestu k priecinku (Priklad: /home/user):\n");
                 scanf("%s", parameter);
 
                 // Zabezpecenie aby sa na konci nachadzal /
@@ -365,7 +365,7 @@ void directoryControl(SP *spolData) {
                 }
                 break;
             case 3:
-                printf("Zadajte nazov suboru, ktory chcete vytvorit:\n");
+                printf("Zadajte nazov priecinku, ktory chcete vytvorit:\n");
                 scanf("%s", parameter);
                 char commandMD[10] = "mkdir ";
                 //chystanie adresy na vymazavanie

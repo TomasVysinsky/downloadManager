@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/vysinsky2/clion/downloadManagerProj/downloadManager.c
+/home/kivader1/clion/download_manager/main.c
 stdio.h
 -
 curl/curl.h

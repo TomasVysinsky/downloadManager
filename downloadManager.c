@@ -249,6 +249,15 @@ void launcher(SP *spolData, HISTORY *history)
         printf("V zozname sa nenachadzaju ziadne adresy na stiahnutie\n");
         return;
     }
+    if (history->aktualPocet == history->maxPocet)
+    {
+        int h = history->maxPocet + 50;
+        HN nody[h];
+        for (int i = 0; i < history->aktualPocet; ++i) {
+            nody[i] = history->nody[i];
+        }
+        history->nody = nody;
+    }
 
     printf("Prajete si naplanovat cas spustenia?\n");
     printf(" 1) Ano\n");

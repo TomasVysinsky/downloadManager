@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
-#include<dirent.h>
+#include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <netinet/in.h>
@@ -284,15 +284,23 @@ void addURL(SP *spolData) {
     printf("Zadajte pozadovanu URL adresu:\n");
     scanf("%s", cur.address);
 
+    for (int i = 0; i <= spolData->aktualPocet; ++i) {
+        if (strcmp(spolData->adresyNaStiahnutie[i].address, cur.address))
+        {
+            printf("The address is already in the queue\n");
+            return;
+        }
+    }
+
     printf("Zadajte prioritu pre novu URL adresu: \n(0 a viac, cim vacsia tym nizsia priorita)\n");
     scanf("%d", &cur.priority);
-    printf("scan done\n");
+    //printf("scan done\n");
     // Algoritmus co zaradi novu URL na prislusne miesto podla priority tak, aby prvky s najvyssou prioritou ostali na konci
-    printf("assign done\n");
+    //printf("assign done\n");
     for (int i = 0; i <= spolData->aktualPocet; ++i) {
         if (i == spolData->aktualPocet)
         {
-            printf("got to the last decision\n");
+            //printf("got to the last decision\n");
             spolData->adresyNaStiahnutie[i] = cur;
         } else {
             if (cur.priority >= spolData->adresyNaStiahnutie[i].priority)
@@ -304,7 +312,7 @@ void addURL(SP *spolData) {
         }
     }
     spolData->aktualPocet++;
-    printf("Pocet navyseny\n");
+    //printf("Pocet navyseny\n");
 }
 
 void directoryControl(SP *spolData) {

@@ -141,17 +141,22 @@ void * downloaderF(void * arg)
         int sockfd, portno, n;
         struct sockaddr_in serveraddr;
         struct hostent *server;
-        char *hostname;
+        char *pridelenaAdresa;
         char buf[BUFSIZE];
-        FILE *file;
 
         /* check command line arguments */
 //    if (argc != 3) {
 //        fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
 //        exit(0);
 //    }
-        hostname = "http://speedtest.tele2.net/1MB.zip";
+        pridelenaAdresa = "http://shell.cas.usf.edu/mccook/uwy/hyperlinks_files/image002.gif";
         portno = 80;
+
+        char * filename;
+        filename = strrchr(pridelenaAdresa, '/');
+        if (filename != NULL) {
+            filename++; /* step over the slash */
+        }
 
         /* socket: create the socket */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -161,9 +166,9 @@ void * downloaderF(void * arg)
         }
 
         /* gethostbyname: get the server's DNS entry */
-        server = gethostbyname(hostname);
+        server = gethostbyname("shell.cas.usf.edu");
         if (server == NULL) {
-            fprintf(stderr,"ERROR, no such host as %s\n", hostname);
+            fprintf(stderr,"ERROR, no such host as %s\n", pridelenaAdresa);
             exit(0);
         }
 
@@ -180,8 +185,9 @@ void * downloaderF(void * arg)
             exit(0);
         }
 
-        /* send the HTTP GET request: GET [cesta k suboru - treba parser] */
-        sprintf(buf, "GET /1MB.zip HTTP/1.1\r\nHost: %s\r\n\r\n", hostname);
+        /* send the HTTP GET request */
+        //sprintf(buf, "GET /1MB.zip HTTP/1.1\r\nHost: %s\r\n\r\n", pridelenaAdresa);
+        sprintf(buf, "GET /mccook/uwy/hyperlinks_files/image002.gif HTTP/1.1\r\nHost: shell.cas.usf.edu\r\n\r\n");
         n = write(sockfd, buf, strlen(buf));
         if (n < 0) {
             perror("ERROR writing to socket");
@@ -189,17 +195,18 @@ void * downloaderF(void * arg)
         }
 
         /* open the file for writing */
-        file = fopen(filename, "w");
-        if (file == NULL) {
+        FILE *fp = fopen(filename, "wb");
+        if (fp == NULL) {
             perror("ERROR opening file");
             exit(0);
         }
 
         /* receive the response */
+        int i = 0;
         bzero(buf, BUFSIZE);
         while ((n = read(sockfd, buf, BUFSIZE)) > 0) {
             /* write the data to the file */
-            fwrite(buf, 1, n, file);
+            fwrite(buf, 1, n, fp);
             bzero(buf, BUFSIZE);
         }
         if (n < 0) {
@@ -208,7 +215,7 @@ void * downloaderF(void * arg)
         }
 
         /* close the file */
-        fclose(file);
+        fclose(fp);
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
         printf("FTPS\n");
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {

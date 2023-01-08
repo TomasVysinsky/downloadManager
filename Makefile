@@ -1,4 +1,5 @@
 OUTPUTS = downloadManager
+CC = gcc
 
 all: $(OUTPUTS)
 
@@ -9,7 +10,7 @@ clean:
 .PHONY: all clean
 
 %.o: %.c
-	$(CC) -c -o $@ $<
+	$(CC) -c $<
 
-%: %.o
-	$(CC) -o $@ $^
+downloadManager: downloadManager.o
+	$(CC) -o $@ $^ -lcurl -lpthread

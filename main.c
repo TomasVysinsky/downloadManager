@@ -14,6 +14,9 @@
 #define BUFSIZE 1024
 
 // https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg
+// https://www.actualidadmotor.com/wp-content/uploads/2016/10/subaru-wrx-s4-ts-830x460.jpg
+// https://image.pmgstatic.com/cache/resized/w420/files/images/film/posters/157/804/157804175_c17547.jpg
+// https://www.attelier.sk/wp-content/uploads/2021/01/cbvvx-735x1024.jpg
 
 typedef struct url {
     char address[250];

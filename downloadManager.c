@@ -14,10 +14,16 @@
 #define BUFSIZE 1024
 #define ADDSIZE 250
 
+/* HTTPS links */
 // https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg
 // https://www.actualidadmotor.com/wp-content/uploads/2016/10/subaru-wrx-s4-ts-830x460.jpg
 // https://image.pmgstatic.com/cache/resized/w420/files/images/film/posters/157/804/157804175_c17547.jpg
 // https://www.attelier.sk/wp-content/uploads/2021/01/cbvvx-735x1024.jpg
+
+/* HTTP links */
+// http://speedtest.tele2.net/1MB.zip
+// http://sstatic.net/stackexchange/img/logos/so/so-logo-med.png
+// http://info.cern.ch/hypertext/Copyright.html
 
 typedef struct url {
     char address[ADDSIZE];
@@ -285,7 +291,7 @@ void addURL(SP *spolData) {
         }
     }
 
-    printf("Zadajte prioritu pre novu URL adresu: \n(0 a viac, cim vacsia tym nizsia priorita)\n");
+    printf("Zadajte prioritu pre novu URL adresu: \n(0 a viac, cim vacsie cislo, tym nizsia priorita)\n");
     scanf("%d", &cur.priority);
     //printf("scan done\n");
     // Algoritmus co zaradi novu URL na prislusne miesto podla priority tak, aby prvky s najvyssou prioritou ostali na konci
@@ -437,6 +443,7 @@ int main() {
 
     bool pokracuj = true;
     int decision = 0;
+    char buffer[BUFSIZE];
     //printf("Communicator running\n");
     while (pokracuj)
     {

@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/downloadManager.dir/main.c.o"
+  "CMakeFiles/downloadManager.dir/downloadManager.c.o"
   "downloadManager"
   "downloadManager.pdb"
 )

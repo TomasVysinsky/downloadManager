@@ -1,1 +1,1 @@
-/usr/bin/cc -lcurl -g CMakeFiles/downloadManager.dir/main.c.o -o downloadManager  /usr/lib/x86_64-linux-gnu/libcurl.so -lpthread 
+/usr/bin/cc -lcurl -g CMakeFiles/downloadManager.dir/downloadManager.c.o -o downloadManager  /usr/lib/x86_64-linux-gnu/libcurl.so -lpthread 

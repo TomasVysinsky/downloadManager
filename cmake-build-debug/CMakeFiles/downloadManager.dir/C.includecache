@@ -6,11 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/home/kivader1/clion/download_manager/main.c
+/home/vysinsky2/clion/downloadManagerProj/downloadManager.c
 stdio.h
 -
-client/client.h
-/home/kivader1/clion/download_manager/client/client.h
-server/server.h
-/home/kivader1/clion/download_manager/server/server.h
+curl/curl.h
+-
+stdlib.h
+-
+pthread.h
+-
+unistd.h
+-
+stdbool.h
+-
+string.h
+-
+dirent.h
+-
+sys/stat.h
+-
+sys/types.h
+-
+netinet/in.h
+-
+netdb.h
+-
 

@@ -625,7 +625,7 @@ int parseHeader(int sock) {
     char buffer[BUFSIZE] = "", *ptr = buffer + 4;
     int n; //num of bytes
 
-    while(n = recv(sock, ptr, 1, 0)){
+    while (n = recv(sock, ptr, 1, 0)) {
         if(n == -1){
             perror("ERROR Parse Header");
             exit(1);
@@ -641,12 +641,12 @@ int parseHeader(int sock) {
     *ptr = 0;
     ptr = buffer +4 ;
 
-    if(n){
+    if (n) {
         ptr = strstr(ptr,"Content-Length:");
-        if(ptr){
+        if (ptr) {
             sscanf(ptr,"%*s %d", &n);
 
-        }else
+        } else
             n = -1; //unknown size
     }
 

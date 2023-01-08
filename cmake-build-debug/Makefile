@@ -67,10 +67,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kivader1/clion/download_manager
+CMAKE_SOURCE_DIR = /home/vysinsky2/clion/downloadManagerProj
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kivader1/clion/download_manager/cmake-build-debug
+CMAKE_BINARY_DIR = /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles /home/kivader1/clion/download_manager/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug/CMakeFiles /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -142,32 +142,32 @@ downloadManager/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/build
 .PHONY : downloadManager/fast
 
-main.o: main.c.o
+downloadManager.o: downloadManager.c.o
 
-.PHONY : main.o
+.PHONY : downloadManager.o
 
 # target to build an object file
-main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/main.c.o
-.PHONY : main.c.o
+downloadManager.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/downloadManager.c.o
+.PHONY : downloadManager.c.o
 
-main.i: main.c.i
+downloadManager.i: downloadManager.c.i
 
-.PHONY : main.i
+.PHONY : downloadManager.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/main.c.i
-.PHONY : main.c.i
+downloadManager.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/downloadManager.c.i
+.PHONY : downloadManager.c.i
 
-main.s: main.c.s
+downloadManager.s: downloadManager.c.s
 
-.PHONY : main.s
+.PHONY : downloadManager.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/main.c.s
-.PHONY : main.c.s
+downloadManager.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/downloadManager.dir/build.make CMakeFiles/downloadManager.dir/downloadManager.c.s
+.PHONY : downloadManager.c.s
 
 # Help Target
 help:
@@ -178,9 +178,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... downloadManager"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... downloadManager.o"
+	@echo "... downloadManager.i"
+	@echo "... downloadManager.s"
 .PHONY : help
 
 

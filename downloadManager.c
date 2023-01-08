@@ -238,6 +238,12 @@ void * downloaderF(void * arg)
 void launcher(SP *spolData, HISTORY *history)
 {
     int decision = 0;
+    if (spolData->aktualPocet == 0)
+    {
+        printf("V zozname sa nenachadzaju ziadne adresy na stiahnutie\n");
+        return;
+    }
+
     printf("Prajete si naplanovat cas spustenia?\n");
     printf(" 1) Ano\n");
     printf(" 2) Nie\n");
@@ -245,7 +251,7 @@ void launcher(SP *spolData, HISTORY *history)
     if (decision == 1)
         postponer();
 
-    printf("\nZaciatok stahovania\n\n");
+    printf("\nZaciatok stahovania...\n");
 
     int n = spolData->aktualPocet;
     pthread_t downloaders[n];
@@ -313,7 +319,7 @@ void directoryControl(SP *spolData) {
         printf(" 1) Ukaz aktualny priecinok\n"); //pwd
         printf(" 2) Zmen aktualny priecinok\n"); //cd
         printf(" 3) Vytvor priecinok\n"); //mkdir
-        printf(" 4) Zmaz priecinok\n"); //rm -r
+        printf(" 4) Zmaz priecinok/subor\n"); //rm -r
         printf(" 5) Ukaz subory v aktualnom priecinku\n"); //ls
         printf(" 6) Navrat do hlavneho menu\n");
         scanf("%d", &decision);

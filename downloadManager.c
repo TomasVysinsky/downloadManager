@@ -143,17 +143,17 @@ void * downloaderF(void * arg)
         strcpy(url, dataD->pridelenaAdresa);
         sscanf(url, "http://%99[^/]%99[^\n]", hostname, path);
 
+        server = gethostbyname(hostname);
+        if (server == NULL) {
+            fprintf(stderr,"ERROR, no such host as %s\n", dataD->pridelenaAdresa);
+            return NULL;
+        }
+
         /* Vytvor socket */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
         if (sockfd < 0) {
             perror("ERROR opening socket");
-            exit(0);
-        }
-
-        server = gethostbyname(hostname);
-        if (server == NULL) {
-            fprintf(stderr,"ERROR, no such host as %s\n", dataD->pridelenaAdresa);
-            exit(0);
+            return NULL;
         }
 
         /* Vynulujeme a zinicializujeme sietovu adresu. */
@@ -166,7 +166,7 @@ void * downloaderF(void * arg)
         /* Vytvorime spojenie so serverom */
         if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
             perror("ERROR connecting to server");
-            exit(0);
+            return NULL;
         }
 
         /* Odosli HTTP GET request */
@@ -174,7 +174,7 @@ void * downloaderF(void * arg)
         n = write(sockfd, buffer, strlen(buffer));
         if (n < 0) {
             perror("ERROR writing to socket after GET");
-            exit(0);
+            return NULL;
         }
 
         char tmp[ADDSIZE];
@@ -186,7 +186,7 @@ void * downloaderF(void * arg)
         file = fopen(destination, "wb");
         if (file == NULL) {
             perror("ERROR opening file");
-            exit(0);
+            return NULL;
         }
 
         int contentLength;
@@ -196,7 +196,7 @@ void * downloaderF(void * arg)
             while ((n = read(sockfd, buffer, BUFSIZE)) > 0) {
                 if (n < 0) {
                     perror("ERROR reading from socket");
-                    exit(3);
+                    return NULL;
                 }
                 fwrite(buffer, 1, n, file);
 

@@ -13,16 +13,21 @@
 
 #define BUFSIZE 1024
 
+// https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg
+// https://www.actualidadmotor.com/wp-content/uploads/2016/10/subaru-wrx-s4-ts-830x460.jpg
+// https://image.pmgstatic.com/cache/resized/w420/files/images/film/posters/157/804/157804175_c17547.jpg
+// https://www.attelier.sk/wp-content/uploads/2021/01/cbvvx-735x1024.jpg
+
 typedef struct url {
-    char * address;
+    char address[250];
     int priority;
 } URL;
 
 typedef struct historyNode {
     int id;
-    char * address;
-    char * date;
-    char * time;
+    char address[250];
+    char date[50];
+    char time[50];
 } HN;
 
 typedef struct history {
@@ -133,7 +138,7 @@ void * downloaderF(void * arg)
             curl_easy_cleanup(curl);
         } else {
             fprintf(stderr, "Error: something went wrong initializing curl\n");
-            return 1;
+            return NULL;
         }
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "http://")) != NULL) {
         printf("HTTP\n");
@@ -231,16 +236,16 @@ void * downloaderF(void * arg)
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     char date[50];
-    sprintf(date, "%d-%02d-%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+    sprintf(date, "%d-%02d-%02d", (tm.tm_year + 1900), tm.tm_mon + 1, tm.tm_mday);
     char time[50];
-    sprintf(date, "%02d:%02d:%02d", tm.tm_hour, tm.tm_min, tm.tm_sec);
+    sprintf(time, "%02d:%02d:%02d", tm.tm_hour, tm.tm_min, tm.tm_sec);
 
     // TODO zapisovanie do historie
     pthread_mutex_lock(dataD->history->mutex);
     dataD->history->nody[dataD->history->aktualPocet].id = dataD->history->aktualPocet + 1;
-    dataD->history->nody[dataD->history->aktualPocet].address = dataD->pridelenaAdresa;
-    dataD->history->nody[dataD->history->aktualPocet].date = date;
-    dataD->history->nody[dataD->history->aktualPocet].time = time;
+    strcpy(dataD->history->nody[dataD->history->aktualPocet].address, dataD->pridelenaAdresa);
+    strcpy(dataD->history->nody[dataD->history->aktualPocet].date, date);
+    strcpy(dataD->history->nody[dataD->history->aktualPocet].time, time);
     dataD->history->aktualPocet++;
     pthread_mutex_unlock(dataD->history->mutex);
 
@@ -280,19 +285,19 @@ void launcher(SP *spolData, HISTORY *history)
 }
 
 void addURL(SP *spolData) {
-    char* newURL;
-    int priority = 0;
+    URL cur;
     printf("Zadajte pozadovanu URL adresu:\n");
-    scanf("%s", &newURL);
+    scanf("%s", cur.address);
 
     printf("Zadajte prioritu pre novu URL adresu: \n(0 a viac, cim vacsia tym nizsia priorita)\n");
-    scanf("%d", &priority);
-
+    scanf("%d", &cur.priority);
+    printf("scan done\n");
     // Algoritmus co zaradi novu URL na prislusne miesto podla priority tak, aby prvky s najvyssou prioritou ostali na konci
-    URL cur = { newURL, priority };
+    printf("assign done\n");
     for (int i = 0; i <= spolData->aktualPocet; ++i) {
         if (i == spolData->aktualPocet)
         {
+            printf("got to the last decision\n");
             spolData->adresyNaStiahnutie[i] = cur;
         } else {
             if (cur.priority >= spolData->adresyNaStiahnutie[i].priority)
@@ -304,6 +309,7 @@ void addURL(SP *spolData) {
         }
     }
     spolData->aktualPocet++;
+    printf("Pocet navyseny\n");
 }
 
 void directoryControl(SP *spolData) {
@@ -394,18 +400,6 @@ int main() {
     pthread_cond_t zober = PTHREAD_COND_INITIALIZER;
     SP spolData = {adresy, n, 0, false, "./", &mutADD, &zober};
 
-    // processing of time for the future needs
-    /*
-    time_t t;
-    time(&t);
-    printf("%s\n\n", ctime(&t));
-    *//*
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
-    printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-    */
-
-
     // Vznik modulu historie
     char filename[20] = "history.txt";
     int h = 50;
@@ -418,27 +412,27 @@ int main() {
         for (c = getc(file); c != EOF; c = getc(file))
             if (c == '\n') // Increment count if this character is newline
                 count++;
-        count--;
+        count;
         h += count;
-        rewind(file);
+        //rewind(file);
+        fseek(file, 0, SEEK_SET);
     }
     HN nody[h];
 
     // Nacitanie Historie do nodov a modulu
     if (file != NULL) {
-        int index = 0;
-        char * address;
-        fscanf(file, "%s\n", &address);
+        char address[250];
+        //fscanf(file, "%*s\n");
         int id;
-        char * date;
-        char * time;
-        while (fscanf(file, "%d %s %s %s \n", &id, &address, &date, &time) == 1)
+        char date[50];
+        char time[50];
+        for (int i = 0; i < count; ++i)
         {
-            nody[index].id = id;
-            nody[index].address = address;
-            nody[index].date = date;
-            nody[index].time = time;
-            index++;
+            fscanf(file, "%d %s %s %s \n", &id, address, date, time);
+            nody[i].id = id;
+            strcpy(nody[i].address, address);
+            strcpy(nody[i].date, date);
+            strcpy(nody[i].time, time);
         }
         fclose(file);
     }
@@ -501,9 +495,9 @@ int main() {
         exit (1);
     }
 
-    char * tmp = "History";
-    fprintf(file, "%s\n", tmp);
-    tmp = " \n";
+    //char * tmp = "History";
+    //fprintf(file, "%s\n", tmp);
+    //tmp = " \n";
     for (int i = 0; i < history.aktualPocet; ++i) {
         fprintf(file, "%d %s %s %s \n", history.nody[i].id, history.nody[i].address, history.nody[i].date, history.nody[i].time);
     }

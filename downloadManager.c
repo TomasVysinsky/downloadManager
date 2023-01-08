@@ -211,6 +211,7 @@ void * downloaderF(void * arg)
             fclose(file);
         }
 
+
         close(sockfd);
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
         CURL *curl;

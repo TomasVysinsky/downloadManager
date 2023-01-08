@@ -67,10 +67,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kivader1/clion/download_manager
+CMAKE_SOURCE_DIR = /home/vysinsky2/clion/downloadManagerProj
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kivader1/clion/download_manager/cmake-build-debug
+CMAKE_BINARY_DIR = /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles /home/kivader1/clion/download_manager/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug/CMakeFiles /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kivader1/clion/download_manager/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vysinsky2/clion/downloadManagerProj/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

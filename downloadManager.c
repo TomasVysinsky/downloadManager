@@ -474,6 +474,63 @@ void directoryControl(SP *spolData) {
     }
 }
 
+void historyControl(HISTORY *history) {
+    bool pokracuj = true;
+    int decision = 0;
+    char parameter[200];
+    bool koniec = false;
+    while (pokracuj) {
+        printf("Zvolte akciu, ktoru si prajete vykonat:\n");
+        printf(" 1) Ukaz historiu\n"); //pwd
+        printf(" 2) Zmaz historiu\n");
+        printf(" 3) Navrat do hlavneho menu\n");
+        scanf("%d", &decision);
+        printf("\n");
+        switch (decision) {
+            case 1:
+                if (history->aktualPocet == 0)
+                {
+                    printf("Momentalne sa tu nenachadza ziaden historicky zaznam.\n");
+                } else {
+                    for (int i = 0; i < history->aktualPocet; ++i) {
+
+                        printf("%d %s %s %s \n", history->nody[i].id, history->nody[i].address, history->nody[i].date, history->nody[i].time);
+                    }
+                }
+                break;
+            case 2:
+                koniec = false;
+                while (!koniec)
+                {
+                    printf("Skutocne chcete zmazat celu historiu?\n");
+                    printf(" 1) Ano\n");
+                    printf(" 2) Nie\n");
+                    scanf("%d", &decision);
+                    switch (decision) {
+                        case 1:
+                            printf("premazavam historiu\n");
+                            history->aktualPocet = 0;
+                            koniec = true;
+                            break;
+                        case 2:
+
+                            koniec = true;
+                            break;
+                        default:
+                            printf("Zadajte cislicu 1 alebo 2\n\n");
+                    }
+                }
+                break;
+            case 3:
+                pokracuj = false;
+                break;
+            default:
+                printf("\nZvolte jednu z ponukanych moznosti\n");
+        }
+        printf("\n");
+    }
+}
+
 int main() {
 
     int n = 10;
@@ -551,6 +608,8 @@ int main() {
                 directoryControl(&spolData);
                 break;
             case 4:
+                historyControl(&history);
+                /*
                 if (history.aktualPocet == 0)
                 {
                     printf("Momentalne sa tu nenachadza ziaden historicky zaznam.\n");
@@ -559,7 +618,7 @@ int main() {
 
                         printf("%d %s %s %s \n", history.nody[i].id, history.nody[i].address, history.nody[i].date, history.nody[i].time);
                     }
-                }
+                }*/
                 break;
             case 5:
                 printf("Ukoncujem program...\n");

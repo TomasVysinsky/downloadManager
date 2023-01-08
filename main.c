@@ -284,8 +284,8 @@ void addURL(SP *spolData) {
     printf("Zadajte pozadovanu URL adresu:\n");
     scanf("%s", cur.address);
 
-    for (int i = 0; i <= spolData->aktualPocet; ++i) {
-        if (strcmp(spolData->adresyNaStiahnutie[i].address, cur.address))
+    for (int i = 0; i < spolData->aktualPocet; ++i) {
+        if (!strcmp(spolData->adresyNaStiahnutie[i].address, cur.address))
         {
             printf("The address is already in the queue\n");
             return;

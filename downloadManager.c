@@ -227,9 +227,6 @@ void * downloaderF(void * arg)
             file = fopen(filename, "wb");
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
 
-            /* Include detecting HTTPS errors */
-            curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
-
             /* Switch on full protocol/debug output */
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
@@ -262,9 +259,6 @@ void * downloaderF(void * arg)
 
             file = fopen(filename, "wb");
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-
-            /* Include detecting HTTPS errors */
-            curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
 
             /* Switch on full protocol/debug output */
             curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
@@ -508,7 +502,7 @@ void historyControl(HISTORY *history) {
                     scanf("%d", &decision);
                     switch (decision) {
                         case 1:
-                            printf("premazavam historiu\n");
+                            printf("\nPremazavam historiu...\n");
                             history->aktualPocet = 0;
                             koniec = true;
                             break;

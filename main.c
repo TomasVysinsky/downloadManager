@@ -12,6 +12,7 @@
 #include <netdb.h>
 
 #define BUFSIZE 1024
+#define ADDSIZE 250
 
 // https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg
 // https://www.actualidadmotor.com/wp-content/uploads/2016/10/subaru-wrx-s4-ts-830x460.jpg
@@ -19,13 +20,13 @@
 // https://www.attelier.sk/wp-content/uploads/2021/01/cbvvx-735x1024.jpg
 
 typedef struct url {
-    char address[250];
+    char address[ADDSIZE];
     int priority;
 } URL;
 
 typedef struct historyNode {
     int id;
-    char address[250];
+    char address[ADDSIZE];
     char date[50];
     char time[50];
 } HN;
@@ -63,20 +64,8 @@ void * downloaderF(void * arg)
     bool pokracuj = true;
     printf("%d downloader running\n", dataD->id);
 
-
     pthread_mutex_lock(dataD->data->mutex);
     printf("%d downloader mutex\n", dataD->id);
-    while (dataD->data->aktualPocet <= 0 && !dataD->data->jeKoniec)
-    {
-        printf("%d downloader waiting\n", dataD->id);
-        pthread_cond_wait(dataD->data->zapisuj, dataD->data->mutex);
-        printf("%d downloader running\n", dataD->id);
-    }
-    if (dataD->data->jeKoniec)
-    {
-        printf("%d downloader is end\n", dataD->id);
-        pokracuj = false;
-    }
 
     if (dataD->data->aktualPocet == 0)
     {
@@ -118,7 +107,13 @@ void * downloaderF(void * arg)
             }
 
             printf("%s\n", filename);
-            file = fopen(filename, "wb");
+            char tmp[ADDSIZE];
+            strcpy(tmp, filename);
+            char destination[ADDSIZE];
+            strcpy(destination, dataD->data->directory);
+            strcat(destination, filename);
+            printf("%s\n", destination);
+            file = fopen(destination, "wb");
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
 
             /* Include detecting HTTPS errors */
@@ -240,7 +235,7 @@ void * downloaderF(void * arg)
     char time[50];
     sprintf(time, "%02d:%02d:%02d", tm.tm_hour, tm.tm_min, tm.tm_sec);
 
-    // TODO zapisovanie do historie
+
     pthread_mutex_lock(dataD->history->mutex);
     dataD->history->nody[dataD->history->aktualPocet].id = dataD->history->aktualPocet + 1;
     strcpy(dataD->history->nody[dataD->history->aktualPocet].address, dataD->pridelenaAdresa);
@@ -421,7 +416,7 @@ int main() {
 
     // Nacitanie Historie do nodov a modulu
     if (file != NULL) {
-        char address[250];
+        char address[ADDSIZE];
         //fscanf(file, "%*s\n");
         int id;
         char date[50];
@@ -438,6 +433,11 @@ int main() {
     }
     HISTORY history = {nody, h, count, &mutHIS};
 
+    /*char * a = "ajajaj";
+    char b[50] = "bububu";
+    char c[50];
+    strcpy(c, a);
+    printf("\n\n%s = %s\n\n", a, c);*/
 
     bool pokracuj = true;
     int decision = 0;

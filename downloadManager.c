@@ -25,6 +25,9 @@
 // http://sstatic.net/stackexchange/img/logos/so/so-logo-med.png
 // http://info.cern.ch/hypertext/Copyright.html
 
+/* FTP link */
+// ftp://vinidev.com/cukrarka.sql
+
 typedef struct url {
     char address[ADDSIZE];
     int priority;
@@ -210,9 +213,77 @@ void * downloaderF(void * arg)
 
         close(sockfd);
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
-        printf("FTPS\n");
+        CURL *curl;
+        CURLcode result;
+        FILE *file;
+
+        curl = curl_easy_init();
+        if(curl) {
+            curl_easy_setopt(curl, CURLOPT_URL, dataD->pridelenaAdresa);
+            curl_easy_setopt(curl, CURLOPT_USERNAME, "host");
+            curl_easy_setopt(curl, CURLOPT_PASSWORD, "host");
+
+            file = fopen(filename, "wb");
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+
+            /* Include detecting HTTPS errors */
+            curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
+
+            /* Switch on full protocol/debug output */
+            curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+
+            /* Perform the request, res will get the return code */
+            result = curl_easy_perform(curl);
+
+            /* Check for errors */
+            if (result != CURLE_OK)
+                fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                        curl_easy_strerror(result));
+
+            fclose(file);
+
+            /* always cleanup */
+            curl_easy_cleanup(curl);
+        } else {
+            fprintf(stderr, "Error: something went wrong initializing curl\n");
+            return NULL;
+        }
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {
-        printf("FTP\n");
+        CURL *curl;
+        CURLcode result;
+        FILE *file;
+
+        curl = curl_easy_init();
+        if(curl) {
+            curl_easy_setopt(curl, CURLOPT_URL, dataD->pridelenaAdresa);
+            curl_easy_setopt(curl, CURLOPT_USERNAME, "host");
+            curl_easy_setopt(curl, CURLOPT_PASSWORD, "host");
+
+            file = fopen(filename, "wb");
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+
+            /* Include detecting HTTPS errors */
+            curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
+
+            /* Switch on full protocol/debug output */
+            curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+
+            /* Perform the request, res will get the return code */
+            result = curl_easy_perform(curl);
+
+            /* Check for errors */
+            if (result != CURLE_OK)
+                fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                        curl_easy_strerror(result));
+
+            fclose(file);
+
+            /* always cleanup */
+            curl_easy_cleanup(curl);
+        } else {
+            fprintf(stderr, "Error: something went wrong initializing curl\n");
+            return NULL;
+        }
     } else {
         printf("Nepodporovana adresa!! (priklad: https://www.priklad.com)\n");
     }

@@ -56,6 +56,7 @@ typedef struct downloader {
 
 void showListOfURL(SP * spolData);
 void postponer();
+int parseHeader(int sock);
 
 void * downloaderF(void * arg)
 {
@@ -88,21 +89,15 @@ void * downloaderF(void * arg)
 
     pthread_mutex_unlock(dataD->data->mutex);
 
-    //dataD->pridelenaAdresa = "https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg";
-    //http://speedtest.tele2.net/1MB.zip
-    //https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg
-
     /* Extract the name of the file from URL */
     char * filename;
     filename = strrchr(dataD->pridelenaAdresa, '/');
     if (filename != NULL) {
-        filename++; /* step over the slash */
+        filename++;
     }
     //decision aky protokol pouzit
     char * hlavicka;
     if ((hlavicka = strstr(dataD->pridelenaAdresa, "https://")) != NULL) {
-        printf("HTTPS\n");
-
         CURL *curl;
         CURLcode result;
         FILE *file;
@@ -111,116 +106,96 @@ void * downloaderF(void * arg)
         if(curl) {
             curl_easy_setopt(curl, CURLOPT_URL, dataD->pridelenaAdresa);
 
-            /* Extract the name of the file from URL */
-            filename = strrchr(dataD->pridelenaAdresa, '/');
-            if (filename != NULL) {
-                filename++; /* step over the slash */
-            }
-
-            printf("%s\n", filename);
             file = fopen(filename, "wb");
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
 
             /* Include detecting HTTPS errors */
             curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
 
-            /* Perform the request, res will get the return code */
             result = curl_easy_perform(curl);
-
-            /* Check for errors */
             if (result != CURLE_OK)
-                fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                fprintf(stderr, "ERROR curl_easy_perform() failed: %s\n",
                         curl_easy_strerror(result));
 
             fclose(file);
-
-            /* always cleanup */
             curl_easy_cleanup(curl);
         } else {
-            fprintf(stderr, "Error: something went wrong initializing curl\n");
+            fprintf(stderr, "ERROR something went wrong initializing curl\n");
             return NULL;
         }
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "http://")) != NULL) {
-        printf("HTTP\n");
-
-        int sockfd, portno, n;
-        struct sockaddr_in serveraddr;
+        int sockfd, port, n;
+        struct sockaddr_in serv_addr;
         struct hostent *server;
-        char *pridelenaAdresa;
-        char buf[BUFSIZE];
+        char buffer[BUFSIZE], url[250], hostname[64], path[128];
+        FILE *fp;
 
-        /* check command line arguments */
-//    if (argc != 3) {
-//        fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
-//        exit(0);
-//    }
-        pridelenaAdresa = "http://shell.cas.usf.edu/mccook/uwy/hyperlinks_files/image002.gif";
-        portno = 80;
+        port = 80;
 
-        char * filename;
-        filename = strrchr(pridelenaAdresa, '/');
-        if (filename != NULL) {
-            filename++; /* step over the slash */
-        }
+        strcpy(url, dataD->pridelenaAdresa);
+        sscanf(url, "http://%99[^/]%99[^\n]", hostname, path);
 
-        /* socket: create the socket */
+        /* Vytvor socket */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
         if (sockfd < 0) {
             perror("ERROR opening socket");
-            exit(0);
+            return NULL;
         }
 
-        /* gethostbyname: get the server's DNS entry */
-        server = gethostbyname("shell.cas.usf.edu");
+        server = gethostbyname(hostname);
         if (server == NULL) {
-            fprintf(stderr,"ERROR, no such host as %s\n", pridelenaAdresa);
-            exit(0);
+            fprintf(stderr,"ERROR, no such host as %s\n", hostname);
+            return NULL;
         }
 
-        /* build the server's Internet address */
-        bzero((char *) &serveraddr, sizeof(serveraddr));
-        serveraddr.sin_family = AF_INET;
+        /* Vynulujeme a zinicializujeme sietovu adresu. */
+        bzero((char *) &serv_addr, sizeof(serv_addr));
+        serv_addr.sin_family = AF_INET;
         bcopy((char *)server->h_addr,
-              (char *)&serveraddr.sin_addr.s_addr, server->h_length);
-        serveraddr.sin_port = htons(portno);
+              (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+        serv_addr.sin_port = htons(port);
 
-        /* connect: create a connection with the server */
-        if (connect(sockfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0) {
-            perror("ERROR connecting");
-            exit(0);
+        /* Vytvorime spojenie so serverom */
+        if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+            perror("ERROR connecting to server");
+            return NULL;
         }
 
-        /* send the HTTP GET request */
-        //sprintf(buf, "GET /1MB.zip HTTP/1.1\r\nHost: %s\r\n\r\n", pridelenaAdresa);
-        sprintf(buf, "GET /mccook/uwy/hyperlinks_files/image002.gif HTTP/1.1\r\nHost: shell.cas.usf.edu\r\n\r\n");
-        n = write(sockfd, buf, strlen(buf));
+        /* Odosli HTTP GET request */
+        sprintf(buffer, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, hostname);
+        n = write(sockfd, buffer, strlen(buffer));
         if (n < 0) {
-            perror("ERROR writing to socket");
-            exit(0);
+            perror("ERROR writing to socket after GET");
+            return NULL;
         }
 
-        /* open the file for writing */
-        FILE *fp = fopen(filename, "wb");
+        fp = fopen(filename, "wb");
         if (fp == NULL) {
             perror("ERROR opening file");
-            exit(0);
+            return NULL;
         }
 
-        /* receive the response */
-        int i = 0;
-        bzero(buf, BUFSIZE);
-        while ((n = read(sockfd, buf, BUFSIZE)) > 0) {
-            /* write the data to the file */
-            fwrite(buf, 1, n, fp);
-            bzero(buf, BUFSIZE);
-        }
-        if (n < 0) {
-            perror("ERROR reading from socket");
-            exit(0);
+        int contentLength;
+        if (contentLength = parseHeader(sockfd)) {
+            int bytes = 0;
+            bzero(buffer, BUFSIZE);
+            while ((n = read(sockfd, buffer, BUFSIZE)) > 0) {
+                if (n < 0) {
+                    perror("ERROR reading from socket");
+                    return NULL;
+                }
+
+                fwrite(buffer, 1, n, fp);
+
+                bytes += n;
+                if (bytes==contentLength)
+                    break;
+            }
+
+            fclose(fp);
         }
 
-        /* close the file */
-        fclose(fp);
+        close(sockfd);
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
         printf("FTPS\n");
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {
@@ -538,4 +513,36 @@ void postponer()
         printf("%d sekund\n", (seconds - i));
         sleep(1);
     }
+}
+
+int parseHeader(int sock) {
+    char buffer[BUFSIZE] = "", *ptr = buffer + 4;
+    int n; //num of bytes
+
+    while(n = recv(sock, ptr, 1, 0)){
+        if(n == -1){
+            perror("ERROR Parse Header");
+            exit(1);
+        }
+
+        if( (ptr[-3] == '\r')  && (ptr[-2] == '\n' ) &&
+            (ptr[-1] == '\r')  && (*ptr == '\n' ))
+            break;
+
+        ptr++;
+    }
+
+    *ptr = 0;
+    ptr = buffer +4 ;
+
+    if(n){
+        ptr = strstr(ptr,"Content-Length:");
+        if(ptr){
+            sscanf(ptr,"%*s %d", &n);
+
+        }else
+            n = -1; //unknown size
+    }
+
+    return n;
 }

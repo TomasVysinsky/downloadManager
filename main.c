@@ -101,7 +101,6 @@ void * downloaderF(void * arg)
                 filename++; /* step over the slash */
             }
 
-            printf("%s\n", filename);
             char tmp[ADDSIZE];
             strcpy(tmp, filename);
             char destination[ADDSIZE];
@@ -130,81 +129,80 @@ void * downloaderF(void * arg)
         int sockfd, port, n;
         struct sockaddr_in serv_addr;
         struct hostent *server;
-        char *pridelenaAdresa;
-        char buf[BUFSIZE];
+        char buffer[BUFSIZE], url[250], hostname[64], path[128];
+        FILE *file;
 
-        /* check command line arguments */
-//    if (argc != 3) {
-//        fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
-//        exit(0);
-//    }
-        pridelenaAdresa = "http://shell.cas.usf.edu/mccook/uwy/hyperlinks_files/image002.gif";
-        portno = 80;
+        port = 80;
 
-        char * filename;
-        filename = strrchr(pridelenaAdresa, '/');
-        if (filename != NULL) {
-            filename++; /* step over the slash */
-        }
+        strcpy(url, dataD->pridelenaAdresa);
+        sscanf(url, "http://%99[^/]%99[^\n]", hostname, path);
 
-        /* socket: create the socket */
+        /* Vytvor socket */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
         if (sockfd < 0) {
             perror("ERROR opening socket");
             exit(0);
         }
 
-        /* gethostbyname: get the server's DNS entry */
-        server = gethostbyname("shell.cas.usf.edu");
+        server = gethostbyname(hostname);
         if (server == NULL) {
-            fprintf(stderr,"ERROR, no such host as %s\n", pridelenaAdresa);
+            fprintf(stderr,"ERROR, no such host as %s\n", dataD->pridelenaAdresa);
             exit(0);
         }
 
-        /* build the server's Internet address */
-        bzero((char *) &serveraddr, sizeof(serveraddr));
-        serveraddr.sin_family = AF_INET;
+        /* Vynulujeme a zinicializujeme sietovu adresu. */
+        bzero((char *) &serv_addr, sizeof(serv_addr));
+        serv_addr.sin_family = AF_INET;
         bcopy((char *)server->h_addr,
-              (char *)&serveraddr.sin_addr.s_addr, server->h_length);
-        serveraddr.sin_port = htons(portno);
+              (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+        serv_addr.sin_port = htons(port);
 
-        /* connect: create a connection with the server */
-        if (connect(sockfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0) {
-            perror("ERROR connecting");
+        /* Vytvorime spojenie so serverom */
+        if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+            perror("ERROR connecting to server");
             exit(0);
         }
 
-        /* send the HTTP GET request */
-        //sprintf(buf, "GET /1MB.zip HTTP/1.1\r\nHost: %s\r\n\r\n", pridelenaAdresa);
-        sprintf(buf, "GET /mccook/uwy/hyperlinks_files/image002.gif HTTP/1.1\r\nHost: shell.cas.usf.edu\r\n\r\n");
-        n = write(sockfd, buf, strlen(buf));
+        /* Odosli HTTP GET request */
+        sprintf(buffer, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, hostname);
+        n = write(sockfd, buffer, strlen(buffer));
         if (n < 0) {
-            perror("ERROR writing to socket");
+            perror("ERROR writing to socket after GET");
             exit(0);
         }
 
-        /* open the file for writing */
-        FILE *fp = fopen(filename, "wb");
-        if (fp == NULL) {
+        char tmp[ADDSIZE];
+        strcpy(tmp, filename);
+        char destination[ADDSIZE];
+        strcpy(destination, dataD->data->directory);
+        strcat(destination, filename);
+        printf("%s\n", destination);
+        file = fopen(destination, "wb");
+        if (file == NULL) {
             perror("ERROR opening file");
             exit(0);
         }
 
-        /* receive the response */
-        int i = 0;
-        bzero(buf, BUFSIZE);
-        while ((n = read(sockfd, buf, BUFSIZE)) > 0) {
-            /* write the data to the file */
-            fwrite(buf, 1, n, fp);
-            bzero(buf, BUFSIZE);
-        }
-        if (n < 0) {
-            perror("ERROR reading from socket");
-            exit(0);
+        int contentLength;
+        if (contentLength = parseHeader(sockfd)) {
+            int bytes = 0;
+            bzero(buffer, BUFSIZE);
+            while ((n = read(sockfd, buffer, BUFSIZE)) > 0) {
+                if (n < 0) {
+                    perror("ERROR reading from socket");
+                    exit(3);
+                }
+                fwrite(buffer, 1, n, file);
+
+                bytes += n;
+                if (bytes==contentLength)
+                    break;
+            }
+
+            fclose(file);
         }
 
-        /* close the file */
-        fclose(fp);
+        close(sockfd);
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
         printf("FTPS\n");
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {

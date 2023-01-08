@@ -51,10 +51,8 @@ typedef struct SpolData {
     URL * adresyNaStiahnutie;
     int maxPocet;
     int aktualPocet;
-    bool jeKoniec;
     char directory[128];
     pthread_mutex_t * mutex;
-    pthread_cond_t * zapisuj;
 } SP;
 
 typedef struct downloader {
@@ -124,8 +122,10 @@ void * downloaderF(void * arg)
 
             result = curl_easy_perform(curl);
             if (result != CURLE_OK)
-                fprintf(stderr, "ERROR curl_easy_perform() failed: %s\n",
-                        curl_easy_strerror(result));
+            {
+                fprintf(stderr, "ERROR curl_easy_perform() failed: %s\n", curl_easy_strerror(result));
+                printf("Address failed: %s\n", dataD->pridelenaAdresa);
+            }
 
             fclose(file);
 
@@ -320,7 +320,7 @@ void launcher(SP *spolData, HISTORY *history)
         printf("V zozname sa nenachadzaju ziadne adresy na stiahnutie\n");
         return;
     }
-    if (history->aktualPocet == history->maxPocet)
+    if (history->aktualPocet + spolData->aktualPocet > history->maxPocet)
     {
         int h = history->maxPocet + 50;
         HN nody[h];
@@ -479,8 +479,7 @@ int main() {
     URL adresy[n];
     pthread_mutex_t mutADD = PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_t mutHIS = PTHREAD_MUTEX_INITIALIZER;
-    pthread_cond_t zober = PTHREAD_COND_INITIALIZER;
-    SP spolData = {adresy, n, 0, false, "./", &mutADD, &zober};
+    SP spolData = {adresy, n, 0, "./", &mutADD};
 
     // Vznik modulu historie
     char filename[20] = "history.txt";
@@ -587,7 +586,6 @@ int main() {
 
     pthread_mutex_destroy(&mutADD);
     pthread_mutex_destroy(&mutHIS);
-    pthread_cond_destroy(&zober);
 
     return 0;
 }

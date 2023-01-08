@@ -5,13 +5,14 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
-#include<dirent.h>
+#include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <netdb.h>
 
 #define BUFSIZE 1024
+#define ADDSIZE 250
 
 // https://www.gnu.org/graphics/gnu-and-penguin-color-300x276.jpg
 // https://www.actualidadmotor.com/wp-content/uploads/2016/10/subaru-wrx-s4-ts-830x460.jpg
@@ -19,13 +20,13 @@
 // https://www.attelier.sk/wp-content/uploads/2021/01/cbvvx-735x1024.jpg
 
 typedef struct url {
-    char address[250];
+    char address[ADDSIZE];
     int priority;
 } URL;
 
 typedef struct historyNode {
     int id;
-    char address[250];
+    char address[ADDSIZE];
     char date[50];
     char time[50];
 } HN;
@@ -64,20 +65,8 @@ void * downloaderF(void * arg)
     bool pokracuj = true;
     printf("%d downloader running\n", dataD->id);
 
-
     pthread_mutex_lock(dataD->data->mutex);
     printf("%d downloader mutex\n", dataD->id);
-    while (dataD->data->aktualPocet <= 0 && !dataD->data->jeKoniec)
-    {
-        printf("%d downloader waiting\n", dataD->id);
-        pthread_cond_wait(dataD->data->zapisuj, dataD->data->mutex);
-        printf("%d downloader running\n", dataD->id);
-    }
-    if (dataD->data->jeKoniec)
-    {
-        printf("%d downloader is end\n", dataD->id);
-        pokracuj = false;
-    }
 
     if (dataD->data->aktualPocet == 0)
     {
@@ -106,7 +95,20 @@ void * downloaderF(void * arg)
         if(curl) {
             curl_easy_setopt(curl, CURLOPT_URL, dataD->pridelenaAdresa);
 
-            file = fopen(filename, "wb");
+            /* Extract the name of the file from URL */
+            filename = strrchr(dataD->pridelenaAdresa, '/');
+            if (filename != NULL) {
+                filename++; /* step over the slash */
+            }
+
+            printf("%s\n", filename);
+            char tmp[ADDSIZE];
+            strcpy(tmp, filename);
+            char destination[ADDSIZE];
+            strcpy(destination, dataD->data->directory);
+            strcat(destination, filename);
+            printf("%s\n", destination);
+            file = fopen(destination, "wb");
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
 
             /* Include detecting HTTPS errors */
@@ -118,6 +120,7 @@ void * downloaderF(void * arg)
                         curl_easy_strerror(result));
 
             fclose(file);
+
             curl_easy_cleanup(curl);
         } else {
             fprintf(stderr, "ERROR something went wrong initializing curl\n");
@@ -127,75 +130,81 @@ void * downloaderF(void * arg)
         int sockfd, port, n;
         struct sockaddr_in serv_addr;
         struct hostent *server;
-        char buffer[BUFSIZE], url[250], hostname[64], path[128];
-        FILE *fp;
+        char *pridelenaAdresa;
+        char buf[BUFSIZE];
 
-        port = 80;
+        /* check command line arguments */
+//    if (argc != 3) {
+//        fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
+//        exit(0);
+//    }
+        pridelenaAdresa = "http://shell.cas.usf.edu/mccook/uwy/hyperlinks_files/image002.gif";
+        portno = 80;
 
-        strcpy(url, dataD->pridelenaAdresa);
-        sscanf(url, "http://%99[^/]%99[^\n]", hostname, path);
+        char * filename;
+        filename = strrchr(pridelenaAdresa, '/');
+        if (filename != NULL) {
+            filename++; /* step over the slash */
+        }
 
-        /* Vytvor socket */
+        /* socket: create the socket */
         sockfd = socket(AF_INET, SOCK_STREAM, 0);
         if (sockfd < 0) {
             perror("ERROR opening socket");
-            return NULL;
+            exit(0);
         }
 
-        server = gethostbyname(hostname);
+        /* gethostbyname: get the server's DNS entry */
+        server = gethostbyname("shell.cas.usf.edu");
         if (server == NULL) {
-            fprintf(stderr,"ERROR, no such host as %s\n", hostname);
-            return NULL;
+            fprintf(stderr,"ERROR, no such host as %s\n", pridelenaAdresa);
+            exit(0);
         }
 
-        /* Vynulujeme a zinicializujeme sietovu adresu. */
-        bzero((char *) &serv_addr, sizeof(serv_addr));
-        serv_addr.sin_family = AF_INET;
+        /* build the server's Internet address */
+        bzero((char *) &serveraddr, sizeof(serveraddr));
+        serveraddr.sin_family = AF_INET;
         bcopy((char *)server->h_addr,
-              (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-        serv_addr.sin_port = htons(port);
+              (char *)&serveraddr.sin_addr.s_addr, server->h_length);
+        serveraddr.sin_port = htons(portno);
 
-        /* Vytvorime spojenie so serverom */
-        if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-            perror("ERROR connecting to server");
-            return NULL;
+        /* connect: create a connection with the server */
+        if (connect(sockfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0) {
+            perror("ERROR connecting");
+            exit(0);
         }
 
-        /* Odosli HTTP GET request */
-        sprintf(buffer, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, hostname);
-        n = write(sockfd, buffer, strlen(buffer));
+        /* send the HTTP GET request */
+        //sprintf(buf, "GET /1MB.zip HTTP/1.1\r\nHost: %s\r\n\r\n", pridelenaAdresa);
+        sprintf(buf, "GET /mccook/uwy/hyperlinks_files/image002.gif HTTP/1.1\r\nHost: shell.cas.usf.edu\r\n\r\n");
+        n = write(sockfd, buf, strlen(buf));
         if (n < 0) {
-            perror("ERROR writing to socket after GET");
-            return NULL;
+            perror("ERROR writing to socket");
+            exit(0);
         }
 
-        fp = fopen(filename, "wb");
+        /* open the file for writing */
+        FILE *fp = fopen(filename, "wb");
         if (fp == NULL) {
             perror("ERROR opening file");
-            return NULL;
+            exit(0);
         }
 
-        int contentLength;
-        if (contentLength = parseHeader(sockfd)) {
-            int bytes = 0;
-            bzero(buffer, BUFSIZE);
-            while ((n = read(sockfd, buffer, BUFSIZE)) > 0) {
-                if (n < 0) {
-                    perror("ERROR reading from socket");
-                    return NULL;
-                }
-
-                fwrite(buffer, 1, n, fp);
-
-                bytes += n;
-                if (bytes==contentLength)
-                    break;
-            }
-
-            fclose(fp);
+        /* receive the response */
+        int i = 0;
+        bzero(buf, BUFSIZE);
+        while ((n = read(sockfd, buf, BUFSIZE)) > 0) {
+            /* write the data to the file */
+            fwrite(buf, 1, n, fp);
+            bzero(buf, BUFSIZE);
+        }
+        if (n < 0) {
+            perror("ERROR reading from socket");
+            exit(0);
         }
 
-        close(sockfd);
+        /* close the file */
+        fclose(fp);
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftps://")) != NULL) {
         printf("FTPS\n");
     } else if ((hlavicka = strstr(dataD->pridelenaAdresa, "ftp://")) != NULL) {
@@ -215,7 +224,7 @@ void * downloaderF(void * arg)
     char time[50];
     sprintf(time, "%02d:%02d:%02d", tm.tm_hour, tm.tm_min, tm.tm_sec);
 
-    // TODO zapisovanie do historie
+
     pthread_mutex_lock(dataD->history->mutex);
     dataD->history->nody[dataD->history->aktualPocet].id = dataD->history->aktualPocet + 1;
     strcpy(dataD->history->nody[dataD->history->aktualPocet].address, dataD->pridelenaAdresa);
@@ -264,15 +273,23 @@ void addURL(SP *spolData) {
     printf("Zadajte pozadovanu URL adresu:\n");
     scanf("%s", cur.address);
 
+    for (int i = 0; i < spolData->aktualPocet; ++i) {
+        if (!strcmp(spolData->adresyNaStiahnutie[i].address, cur.address))
+        {
+            printf("The address is already in the queue\n");
+            return;
+        }
+    }
+
     printf("Zadajte prioritu pre novu URL adresu: \n(0 a viac, cim vacsia tym nizsia priorita)\n");
     scanf("%d", &cur.priority);
-    printf("scan done\n");
+    //printf("scan done\n");
     // Algoritmus co zaradi novu URL na prislusne miesto podla priority tak, aby prvky s najvyssou prioritou ostali na konci
-    printf("assign done\n");
+    //printf("assign done\n");
     for (int i = 0; i <= spolData->aktualPocet; ++i) {
         if (i == spolData->aktualPocet)
         {
-            printf("got to the last decision\n");
+            //printf("got to the last decision\n");
             spolData->adresyNaStiahnutie[i] = cur;
         } else {
             if (cur.priority >= spolData->adresyNaStiahnutie[i].priority)
@@ -284,7 +301,7 @@ void addURL(SP *spolData) {
         }
     }
     spolData->aktualPocet++;
-    printf("Pocet navyseny\n");
+    //printf("Pocet navyseny\n");
 }
 
 void directoryControl(SP *spolData) {
@@ -396,7 +413,7 @@ int main() {
 
     // Nacitanie Historie do nodov a modulu
     if (file != NULL) {
-        char address[250];
+        char address[ADDSIZE];
         //fscanf(file, "%*s\n");
         int id;
         char date[50];

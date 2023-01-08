@@ -443,7 +443,6 @@ int main() {
 
     bool pokracuj = true;
     int decision = 0;
-    char buffer[BUFSIZE];
     //printf("Communicator running\n");
     while (pokracuj)
     {
